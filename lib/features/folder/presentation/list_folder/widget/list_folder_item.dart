@@ -41,9 +41,9 @@ class ListFolderItem extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 5.0),
-                    const Text(
-                      "Tamanho: 3.4 MB",
-                      style: TextStyle(
+                    Text(
+                      "Tamanho: ${folder.size}",
+                      style: const TextStyle(
                         color: Colors.grey
                       ),
                     ),

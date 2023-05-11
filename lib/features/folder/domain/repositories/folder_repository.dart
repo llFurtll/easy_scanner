@@ -4,4 +4,5 @@ import '../entities/folder.dart';
 
 abstract class FolderRepository {
   Future<Result<Failure, List<Folder>>> find();
+  Future<Result<Failure, Folder>> create(String name);
 }

@@ -23,6 +23,12 @@ class FolderRepositoryImpl extends FolderRepository with AutoInject {
     return Right(result);
   }
 
+  @override
+  Future<Result<Failure, Folder>> create(String name) async {
+    final result = await dataSource.create(name);
+    return Right(result);
+  }
+
   set setDataSource(FolderDataSource dataSource) {
     this.dataSource = dataSource;
   }
