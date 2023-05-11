@@ -33,6 +33,7 @@ class ListFolderPageState extends State<ListFolderPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: widget.controller.scaffoldKey,
       appBar: _buildAppBar(),
       body: ValueListenableBuilder<bool>(
         valueListenable: widget.controller.isLoading,
@@ -65,7 +66,7 @@ class ListFolderPageState extends State<ListFolderPage> {
 
   Widget _buildFab() {
     return FloatingActionButton(
-      onPressed: () {},
+      onPressed: () => widget.controller.newFolder(),
       backgroundColor: Colors.blue.shade700,
       child: const Icon(Icons.add),
     );
@@ -73,6 +74,7 @@ class ListFolderPageState extends State<ListFolderPage> {
 
   AppBar _buildAppBar() {
     return AppBar(
+      automaticallyImplyLeading: false,
       toolbarHeight: 100.0,
       shape: const ContinuousRectangleBorder(
         borderRadius: BorderRadius.only(
