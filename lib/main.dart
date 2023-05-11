@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:reflect_inject/injection/auto_inject.dart';
 
 import 'features/document/presentation/list_document/pages/list_document_page.dart';
+import 'features/folder/presentation/list_folder/pages/list_folder_page.dart';
 import 'main.reflectable.dart';
 
 void main() {
@@ -17,7 +18,11 @@ void main() {
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: ListDocumentPage(),
+      initialRoute: "/",
+      routes: {
+        "/": (context) => ListFolderPage(),
+        "/documents": (context) => ListDocumentPage()
+      },
     )
   );
 }

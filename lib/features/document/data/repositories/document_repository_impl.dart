@@ -20,8 +20,8 @@ class DocumentRepositoryImpl extends DocumentRepository with AutoInject {
   }
 
   @override
-  FutureOr<Result<Failure, List<Document>>> find() async {
-    final result = await dataSource.find();
+  Future<Result<Failure, List<Document>>> find(String folder) async {
+    final result = await dataSource.find(folder);
     return Right(result);
   }
 

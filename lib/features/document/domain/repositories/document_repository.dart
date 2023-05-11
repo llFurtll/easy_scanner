@@ -5,5 +5,5 @@ import '../../../../core/result/result.dart';
 import '../entities/document.dart';
 
 abstract class DocumentRepository {
-  FutureOr<Result<Failure, List<Document>>> find();
+  Future<Result<Failure, List<Document>>> find(String folder);
 }

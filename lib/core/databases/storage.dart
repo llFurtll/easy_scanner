@@ -6,21 +6,21 @@ import 'package:reflect_inject/injection/auto_inject.dart';
 
 import '../adapters/path_provider_adapter.dart';
 
-abstract class DataSource<T> {
-  Future<T> getDataSource();
+abstract class Storage<T> {
+  Future<T> getStorage();
 }
 
 @reflection
-class DirectoryDataSource extends DataSource<Directory> with AutoInject {
+class DirectoryStorage extends Storage<Directory> with AutoInject {
   @Inject(nameSetter: "setProvider", type: PathProviderAdapterImpl)
   late final PathProviderAdapter provider;
 
-  DirectoryDataSource() {
+  DirectoryStorage() {
     super.inject();
   }
 
   @override
-  Future<Directory> getDataSource() async {
+  Future<Directory> getStorage() async {
     return await provider.getDirectory();
   }
 

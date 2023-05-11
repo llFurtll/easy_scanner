@@ -6,39 +6,38 @@ import 'package:reflect_inject/injection/auto_inject.dart';
 
 import '../../../../core/adapters/path_adapter.dart';
 import '../../../../core/databases/storage.dart';
-import '../models/document_model.dart';
+import '../models/folder_model.dart';
 
-abstract class DocumentDataSource {
-  Future<List<DocumentModel>> find(String folder);
+abstract class FolderDataSource {
+  Future<List<FolderModel>> find();
 }
 
 @reflection
-class DocumentDataSourceImpl extends DocumentDataSource with AutoInject {
+class FolderDataSourceImpl extends FolderDataSource with AutoInject {
   @Inject(nameSetter: "setDataSource", type: DirectoryStorage)
   late final Storage<Directory> storage;
 
   @Inject(nameSetter: "setPath", type: PathAdapterImpl)
   late final PathAdapter pathAdapter;
 
-  DocumentDataSourceImpl() {
+
+  FolderDataSourceImpl() {
     super.inject();
   }
 
   @override
-  Future<List<DocumentModel>> find(String folder) async {
-    List<DocumentModel> result = [];
+  Future<List<FolderModel>> find() async {
+    List<FolderModel> result = [];
+
     final directory = await storage.getStorage();
-    final folderSelect = Directory("${directory.path}/$folder");
-    if (folderSelect.existsSync()) {
-      for (FileSystemEntity file in folderSelect.listSync()) {
-        if (file is File) {
-          result.add(
-            DocumentModel(
-              name: pathAdapter.basename(file.path),
-              path: file.path
-            )
-          );
-        }
+    for (FileSystemEntity folder in directory.listSync()) {
+      if (FileSystemEntity.isDirectorySync(folder.path)) {
+        result.add(
+          FolderModel(
+            name: pathAdapter.basename(folder.path),
+            path: folder.path
+          )
+        );
       }
     }
 
@@ -48,7 +47,7 @@ class DocumentDataSourceImpl extends DocumentDataSource with AutoInject {
   set setDataSource(Storage<Directory> storage) {
     this.storage = storage;
   }
-  
+
   set setPath(PathAdapter pathAdapter) {
     this.pathAdapter = pathAdapter;
   }
