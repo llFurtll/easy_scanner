@@ -26,8 +26,6 @@ class ListDocumentController with AutoInject {
   void loadDocuments(String folder) async {
     final result = await getDocuments(GetDocumentsParams(folder: folder));
     result.fold((left) => null, (right) => documents.addAll(right));
-    documents.add(const Document(name: "Minha CNH", path: ""));
-    documents.add(const Document(name: "Meu RG", path: ""));
     isLoading.value = false;
   }
 

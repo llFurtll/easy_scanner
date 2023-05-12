@@ -5,3 +5,11 @@ abstract class Failure {
     required this.message
   });
 }
+
+class FolderExistsFailure extends Failure {
+  FolderExistsFailure({required super.message});
+}
+
+class UseCaseFailure extends Failure {
+  UseCaseFailure({required super.message});
+}

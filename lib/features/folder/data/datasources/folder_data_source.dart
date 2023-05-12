@@ -35,7 +35,7 @@ class FolderDataSourceImpl extends FolderDataSource with AutoInject {
     final directory = await storage.getStorage();
     for (FileSystemEntity folder in directory.listSync()) {
       if (FileSystemEntity.isDirectorySync(folder.path)) {
-        String size = await getFileSize(folder.path);
+        String size = await getFileFolder(folder.path);
         result.add(
           FolderModel(
             name: pathAdapter.basename(folder.path),
@@ -45,6 +45,8 @@ class FolderDataSourceImpl extends FolderDataSource with AutoInject {
         );
       }
     }
+
+    result.sort((item1, item2) => item1.name.compareTo(item2.name));
 
     return result;
   }
@@ -60,13 +62,13 @@ class FolderDataSourceImpl extends FolderDataSource with AutoInject {
   @override
   Future<FolderModel> create(String name) async {
     final directory = await storage.getStorage();
-    final newFolder = Directory("${directory.path}/name");
+    final newFolder = Directory("${directory.path}/$name");
     if (newFolder.existsSync()) {
       throw const FolderExistsException("folder-exists");
     }
 
     newFolder.createSync();
-    String size = await getFileSize(newFolder.path);
+    String size = await getFileFolder(newFolder.path);
     return FolderModel(
       name: name,
       path: newFolder.path,

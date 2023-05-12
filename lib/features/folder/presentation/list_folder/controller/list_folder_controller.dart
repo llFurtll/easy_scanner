@@ -24,16 +24,18 @@ class ListFolderController with AutoInject {
   // VARIABLES
   final List<Folder> folders = [];
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final formKey = GlobalKey<FormState>();
+  final textController = TextEditingController();
 
   ListFolderController() {
     super.inject();
   }
 
   void loadFolders() async {
+    folders.clear();
+    isLoading.value = true;
     final result = await getFolders(NoParams());
     result.fold((left) => null, (right) => folders.addAll(right));
-    folders.add(const Folder(name: "Daniel Melonari", path: "", size: "25 MB"));
-    folders.add(const Folder(name: "Carla Neiva", path: "", size: "30 MB"));
     isLoading.value = false;
   }
 
@@ -42,8 +44,35 @@ class ListFolderController with AutoInject {
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
       context: scaffoldKey.currentContext!,
-      builder: (context) => const NewFolder(),
+      builder: (context) => NewFolder(
+        formKey: formKey,
+        onPressed: saveFolder,
+        controller: textController,
+      ),
     );
+  }
+
+  void saveFolder() async {
+    if (formKey.currentState?.validate() ?? false) {
+      final nameFolder = textController.text;
+      textController.clear();
+      final result = await getCreateFolder(CreateFolderParams(name: nameFolder));
+      result.fold(
+        (left) {
+          Navigator.of(scaffoldKey.currentContext!).pop();
+          ScaffoldMessenger.of(scaffoldKey.currentContext!).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.red,
+              content: Text(left.message)
+            )
+          );
+        },
+        (right) {
+          Navigator.of(scaffoldKey.currentContext!).pop();
+          loadFolders();
+        }
+      );
+    }
   }
 
   set setGetFolders(GetFolders getFolders) {

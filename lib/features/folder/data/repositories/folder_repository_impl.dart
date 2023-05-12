@@ -2,6 +2,7 @@ import 'package:reflect_inject/annotations/inject.dart';
 import 'package:reflect_inject/global/instances.dart';
 import 'package:reflect_inject/injection/auto_inject.dart';
 
+import '../../../../core/exceptions/custom_exceptions.dart';
 import '../../../../core/failures/failures.dart';
 import '../../../../core/result/result.dart';
 import '../../domain/entities/folder.dart';
@@ -25,8 +26,12 @@ class FolderRepositoryImpl extends FolderRepository with AutoInject {
 
   @override
   Future<Result<Failure, Folder>> create(String name) async {
-    final result = await dataSource.create(name);
-    return Right(result);
+    try {
+      final result = await dataSource.create(name);
+      return Right(result);
+    } on FolderExistsException catch(e) {
+      return Left(FolderExistsFailure(message: e.message));
+    }
   }
 
   set setDataSource(FolderDataSource dataSource) {

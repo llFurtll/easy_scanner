@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
 
 class NewFolder extends StatelessWidget {
-  const NewFolder({super.key});
+  final GlobalKey<FormState> formKey;
+  final Function() onPressed;
+  final TextEditingController controller;
+
+  const NewFolder({
+    super.key,
+    required this.formKey,
+    required this.onPressed,
+    required this.controller
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,8 +22,8 @@ class NewFolder extends StatelessWidget {
         decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(15.0),
-            topRight: Radius.circular(15.0)
+            topLeft: Radius.circular(20.0),
+            topRight: Radius.circular(20.0)
           )
         ),
         padding: const EdgeInsets.all(25.0),
@@ -45,7 +54,7 @@ class NewFolder extends StatelessWidget {
         ),
         ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.grey.shade400,
+            backgroundColor: Colors.grey.shade200,
             foregroundColor: Colors.black,
             shape: const CircleBorder()
           ),
@@ -58,6 +67,7 @@ class NewFolder extends StatelessWidget {
 
   Widget _buildForm() {
     return Form(
+      key: formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -70,6 +80,7 @@ class NewFolder extends StatelessWidget {
           ),
           const SizedBox(height: 10.0),
           TextFormField(
+            controller: controller,
             decoration: InputDecoration(
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(15.0),
@@ -99,7 +110,7 @@ class NewFolder extends StatelessWidget {
             borderRadius: BorderRadius.circular(30.0)
           ),
         ),
-        onPressed: () {},
+        onPressed: onPressed,
         child: const Text("Salvar")
       ),
     );

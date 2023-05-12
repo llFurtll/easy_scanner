@@ -21,7 +21,15 @@ class GetCreateFolder extends UseCase<Folder, CreateFolderParams> with AutoInjec
 
   @override
   Future<Result<Failure, Folder>> call(params) async {
-    return await repository.create(params.name);
+    final result = await repository.create(params.name);
+    return result.fold(
+      (left) => Left(
+        UseCaseFailure(
+          message: "O nome da pasta já existe"
+        )
+      ),
+      (right) => Right(right)
+    );
   }
   
   set setRepository(FolderRepository repository) {
