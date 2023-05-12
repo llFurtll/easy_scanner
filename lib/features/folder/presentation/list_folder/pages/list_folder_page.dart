@@ -49,13 +49,43 @@ class ListFolderPageState extends State<ListFolderPage> {
           } 
 
           final items = widget.controller.folders;
-          return ListView.separated(
-            padding: const EdgeInsets.all(35.0),
-            itemCount: items.length,
-            itemBuilder: (context, index) => ListFolderItem(
-              folder: items[index]
+          return Container(
+            padding: const EdgeInsets.only(
+              left: 35.0,
+              right: 35.0 
             ),
-            separatorBuilder: (context, index) => const SizedBox(height: 15.0),
+            child: Column(
+              children: [
+                Align(
+                  alignment: Alignment.topRight,
+                  child: TextButton(
+                    onPressed: widget.controller.setEdit,
+                    style: TextButton.styleFrom(
+                      textStyle: const TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold
+                      )
+                    ),
+                    child: ValueListenableBuilder(
+                      valueListenable: widget.controller.isEdit,
+                      builder: (context, value, child) {
+                        return Text(value ? "Cancelar" : "Editar");
+                      },
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: ListView.separated(
+                    itemCount: items.length,
+                    itemBuilder: (context, index) => ListFolderItem(
+                      folder: items[index],
+                      notifier: widget.controller.isEdit,
+                    ),
+                    separatorBuilder: (context, index) => const SizedBox(height: 15.0),
+                  ),
+                )
+              ],
+            ),
           );
         },
       ),

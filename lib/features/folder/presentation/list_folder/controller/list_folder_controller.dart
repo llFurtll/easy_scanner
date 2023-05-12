@@ -20,6 +20,7 @@ class ListFolderController with AutoInject {
   
   // NOTIFIERS
   final isLoading = ValueNotifier(true);
+  final isEdit = ValueNotifier(false);
 
   // VARIABLES
   final List<Folder> folders = [];
@@ -73,6 +74,10 @@ class ListFolderController with AutoInject {
         }
       );
     }
+  }
+
+  void setEdit() {
+    isEdit.value = !isEdit.value;
   }
 
   set setGetFolders(GetFolders getFolders) {
