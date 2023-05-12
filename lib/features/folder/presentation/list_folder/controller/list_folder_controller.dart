@@ -32,6 +32,8 @@ class ListFolderController with AutoInject {
   void loadFolders() async {
     final result = await getFolders(NoParams());
     result.fold((left) => null, (right) => folders.addAll(right));
+    folders.add(const Folder(name: "Daniel Melonari", path: "", size: "25 MB"));
+    folders.add(const Folder(name: "Carla Neiva", path: "", size: "30 MB"));
     isLoading.value = false;
   }
 

@@ -43,7 +43,15 @@ class NewFolder extends StatelessWidget {
             fontSize: 20.0
           ),
         ),
-        IconButton(onPressed: () => Navigator.of(context).pop(), icon: const Icon(Icons.close)),
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.grey.shade400,
+            foregroundColor: Colors.black,
+            shape: const CircleBorder()
+          ),
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Icon(Icons.close)
+        )
       ],
     );
   }

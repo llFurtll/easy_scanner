@@ -17,6 +17,7 @@ class ListDocumentController with AutoInject {
 
   // VARIABLES
   final List<Document> documents = [];
+  String nameFolder = "";
 
   ListDocumentController() {
     super.inject();

@@ -27,6 +27,7 @@ class ListDocumentPageState extends State<ListDocumentPage> {
   @override
   void didChangeDependencies() {
     final folder = ModalRoute.of(context)!.settings.arguments as String;
+    widget.controller.nameFolder = folder;
     widget.controller.loadDocuments(folder);
     super.didChangeDependencies();
   }
@@ -35,6 +36,7 @@ class ListDocumentPageState extends State<ListDocumentPage> {
   void dispose() {
     super.dispose();
     widget.controller.documents.clear();
+    widget.controller.isLoading.value = true;
   }
 
   @override
@@ -87,7 +89,7 @@ class ListDocumentPageState extends State<ListDocumentPage> {
         )
       ),
       backgroundColor: Colors.blue.shade700,
-      title: const Text("Documentos"),
+      title: Text(widget.controller.nameFolder),
       titleTextStyle: const TextStyle(
         fontSize: 30.0,
         fontWeight: FontWeight.bold
