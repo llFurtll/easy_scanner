@@ -169,6 +169,7 @@ class ListFolderController with AutoInject {
   }
 
   void setEdit() {
+    foldersToDelete.clear();
     isEdit.value = !isEdit.value;
   }
 
