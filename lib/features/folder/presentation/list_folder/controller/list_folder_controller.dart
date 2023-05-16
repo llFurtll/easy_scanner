@@ -1,3 +1,4 @@
+import 'package:easy_scanner/core/adapters/awesome_dialog_adapter.dart';
 import 'package:flutter/material.dart';
 import 'package:reflect_inject/annotations/inject.dart';
 import 'package:reflect_inject/global/instances.dart';
@@ -6,7 +7,9 @@ import 'package:reflect_inject/injection/auto_inject.dart';
 import '../../../../../core/usecases/usecase.dart';
 import '../../../domain/entities/folder.dart';
 import '../../../domain/usecases/get_create_folder.dart';
+import '../../../domain/usecases/get_delete_folders.dart';
 import '../../../domain/usecases/get_folders.dart';
+import '../widget/list_folder_item.dart';
 import '../widget/new_folder.dart';
 
 @reflection
@@ -17,6 +20,9 @@ class ListFolderController with AutoInject {
 
   @Inject(nameSetter: "setGetCreateFolder")
   late final GetCreateFolder getCreateFolder;
+
+  @Inject(nameSetter: "setGetDeleteFolder")
+  late final GetDeleteFolders getDeleteFolders;
   
   // NOTIFIERS
   final isLoading = ValueNotifier(true);
@@ -27,6 +33,7 @@ class ListFolderController with AutoInject {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final formKey = GlobalKey<FormState>();
   final textController = TextEditingController();
+  final foldersToDelete = <Folder>[];
 
   ListFolderController() {
     super.inject();
@@ -61,18 +68,103 @@ class ListFolderController with AutoInject {
       result.fold(
         (left) {
           Navigator.of(scaffoldKey.currentContext!).pop();
-          ScaffoldMessenger.of(scaffoldKey.currentContext!).showSnackBar(
-            SnackBar(
-              backgroundColor: Colors.red,
-              content: Text(left.message)
-            )
+          AwesomeDialogAdapter.showDialog(
+            context: scaffoldKey.currentContext!,
+            type: TypeDialog.error,
+            title: "Ah não :(",
+            desc: left.message,
+            textCancel: "Fechar",
+            textOk: "Beleza",
+            btnCancel: () {},
+            btnOk: () {}
           );
         },
         (right) {
           Navigator.of(scaffoldKey.currentContext!).pop();
           loadFolders();
+          AwesomeDialogAdapter.showDialog(
+            context: scaffoldKey.currentContext!,
+            type: TypeDialog.success,
+            title: "Parabéns",
+            desc: "Sua nova pasta foi criada :)",
+            textCancel: "Fechar",
+            textOk: "Obrigado :)",
+            btnCancel: () {},
+            btnOk: () {}
+          );
         }
       );
+    }
+  }
+
+  void deleteFolders() {
+    if (foldersToDelete.isEmpty) {
+      AwesomeDialogAdapter.showDialog(
+        context: scaffoldKey.currentContext!,
+        type: TypeDialog.warning,
+        title: "Atenção",
+        desc: "Você precisa selecionar pelo menos um item!",
+        textCancel: "Fechar",
+        textOk: "Tudo bem!",
+        btnCancel: () {},
+        btnOk: () async {}
+      );
+
+      return;
+    }
+
+    AwesomeDialogAdapter.showDialog(
+      context: scaffoldKey.currentContext!,
+      type: TypeDialog.question,
+      title: "Cuidado",
+      desc: "Certeza que você deseja prosseguir? Seus dados deletados serão perdidos",
+      textCancel: "Não quero",
+      textOk: "Pode continuar",
+      btnCancel: () {
+        isEdit.value = false;
+      },
+      btnOk: () async {
+        final response = await getDeleteFolders(
+          DeleteFoldersParams(folders: foldersToDelete)
+        );
+        response.fold(
+          (left) {
+            AwesomeDialogAdapter.showDialog(
+              context: scaffoldKey.currentContext!,
+              type: TypeDialog.error,
+              title: "Ah não :(",
+              desc: left.message,
+              textCancel: "Fechar",
+              textOk: "Beleza",
+              btnCancel: () {},
+              btnOk: () {}
+            );
+          },
+          (right) {
+            loadFolders();
+            foldersToDelete.clear();
+            isEdit.value = false;
+            AwesomeDialogAdapter.showDialog(
+              context: scaffoldKey.currentContext!,
+              type: TypeDialog.success,
+              title: "Finalizado",
+              desc: "As pastas solicitadas foram removidas!",
+              textCancel: "Fechar",
+              textOk: "Obrigado :)",
+              btnCancel: () {},
+              btnOk: () {}
+            );
+          }
+        );
+      }
+    );
+  }
+
+  void changeSelectItem(ListFolderItem item, bool isCheck) {
+    if (isCheck) {
+      foldersToDelete.add(item.folder);
+    } else {
+      foldersToDelete.remove(item.folder);
     }
   }
 
@@ -86,5 +178,9 @@ class ListFolderController with AutoInject {
 
   set setGetCreateFolder(GetCreateFolder getCreateFolder) {
     this.getCreateFolder = getCreateFolder;
+  }
+
+  set setGetDeleteFolder(GetDeleteFolders getDeleteFolders) {
+    this.getDeleteFolders = getDeleteFolders;
   }
 }

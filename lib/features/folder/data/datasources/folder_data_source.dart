@@ -13,6 +13,7 @@ import '../models/folder_model.dart';
 abstract class FolderDataSource {
   Future<List<FolderModel>> find();
   Future<FolderModel> create(String name);
+  Future<bool> delete(List<FolderModel> folders);
 }
 
 @reflection
@@ -74,5 +75,22 @@ class FolderDataSourceImpl extends FolderDataSource with AutoInject {
       path: newFolder.path,
       size: size
     );
+  }
+
+  @override
+  Future<bool> delete(List<FolderModel> folders) async {
+    try {
+      final pathsToDelete = folders.map((e) => e.path).toList();
+      final directory = await storage.getStorage();
+      for (FileSystemEntity folder in directory.listSync()) {
+        if (pathsToDelete.contains(folder.path)) {
+          await folder.delete(recursive: true);
+        }
+      }
+    } catch (_) {
+      throw const FolderErrorDeleteException("");
+    }
+
+    return true;
   }
 }

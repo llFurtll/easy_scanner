@@ -80,6 +80,7 @@ class ListFolderPageState extends State<ListFolderPage> {
                     itemBuilder: (context, index) => ListFolderItem(
                       folder: items[index],
                       notifier: widget.controller.isEdit,
+                      onChanged: widget.controller.changeSelectItem,
                     ),
                     separatorBuilder: (context, index) => const SizedBox(height: 15.0),
                   ),
@@ -95,10 +96,15 @@ class ListFolderPageState extends State<ListFolderPage> {
   }
 
   Widget _buildFab() {
-    return FloatingActionButton(
-      onPressed: () => widget.controller.newFolder(),
-      backgroundColor: Colors.blue.shade700,
-      child: const Icon(Icons.add),
+    return ValueListenableBuilder(
+      valueListenable: widget.controller.isEdit,
+      builder: (context, value, child) {
+        return FloatingActionButton(
+          onPressed: value ? widget.controller.deleteFolders :  widget.controller.newFolder,
+          backgroundColor: value ? Colors.red : Colors.blue.shade700,
+          child: Icon(value ? Icons.delete : Icons.add),
+        );
+      },
     );
   }
 

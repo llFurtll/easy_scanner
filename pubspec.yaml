@@ -35,6 +35,7 @@ dependencies:
   path_provider: ^2.0.15
   path: 1.8.2
   msh_checkbox: ^2.0.1
+  awesome_dialog: ^3.0.2
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

@@ -7,10 +7,16 @@ import '../../../domain/entities/folder.dart';
 class ListFolderItem extends StatelessWidget {
   final Folder folder;
   final ValueNotifier<bool> notifier;
+  final Function(ListFolderItem item, bool isCheck) onChanged;
   
   bool isCheck = false;
 
-  ListFolderItem({super.key, required this.folder, required this.notifier});
+  ListFolderItem({
+    super.key,
+    required this.folder,
+    required this.notifier,
+    required this.onChanged
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +38,7 @@ class ListFolderItem extends StatelessWidget {
                     onChanged: (selected) {
                       setState(() {
                         isCheck = selected;
+                        onChanged(this, isCheck);
                       });
                     },
                   );

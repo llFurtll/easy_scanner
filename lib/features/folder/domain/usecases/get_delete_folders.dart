@@ -11,21 +11,21 @@ import '../entities/folder.dart';
 import '../repositories/folder_repository.dart';
 
 @reflection
-class GetCreateFolder extends UseCase<Folder, CreateFolderParams> with AutoInject {
+class GetDeleteFolders extends UseCase<bool, DeleteFoldersParams> with AutoInject {
   @Inject(nameSetter: "setRepository", type: FolderRepositoryImpl)
   late final FolderRepository repository;
 
-  GetCreateFolder() {
+  GetDeleteFolders() {
     super.inject();
   }
 
   @override
-  Future<Result<Failure, Folder>> call(params) async {
-    final result = await repository.create(params.name);
+  Future<Result<Failure, bool>> call(params) async {
+    final result = await repository.delete(params.folders);
     return result.fold(
       (left) => Left(
         UseCaseFailure(
-          message: "O nome utilizado já existe, por favor escolha um novo nome!"
+          message: "Aconteceu algum problema :(! Por favor tente novamente!)"
         )
       ),
       (right) => Right(right)
@@ -37,10 +37,10 @@ class GetCreateFolder extends UseCase<Folder, CreateFolderParams> with AutoInjec
   }
 }
 
-class CreateFolderParams extends Params {
-  final String name;
+class DeleteFoldersParams extends Params {
+  final List<Folder> folders;
 
-  CreateFolderParams({
-    required this.name
+  DeleteFoldersParams({
+    required this.folders
   });
 }

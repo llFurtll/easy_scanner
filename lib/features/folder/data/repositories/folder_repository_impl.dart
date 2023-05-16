@@ -8,6 +8,7 @@ import '../../../../core/result/result.dart';
 import '../../domain/entities/folder.dart';
 import '../../domain/repositories/folder_repository.dart';
 import '../datasources/folder_data_source.dart';
+import '../models/folder_model.dart';
 
 @reflection
 class FolderRepositoryImpl extends FolderRepository with AutoInject {
@@ -30,6 +31,16 @@ class FolderRepositoryImpl extends FolderRepository with AutoInject {
       final result = await dataSource.create(name);
       return Right(result);
     } on FolderExistsException catch(e) {
+      return Left(FolderExistsFailure(message: e.message));
+    }
+  }
+
+  @override
+  Future<Result<Failure, bool>> delete(List<Folder> folders) async {
+    try {
+      final result = await dataSource.delete(FolderModel.listEntity(folders));
+      return Right(result);
+    } on FolderErrorDeleteFailure catch(e) {
       return Left(FolderExistsFailure(message: e.message));
     }
   }
