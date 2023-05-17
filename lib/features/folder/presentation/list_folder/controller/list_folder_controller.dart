@@ -86,7 +86,7 @@ class ListFolderController with AutoInject {
             context: scaffoldKey.currentContext!,
             type: TypeDialog.success,
             title: "Parabéns",
-            desc: "Sua nova pasta foi criada :)",
+            desc: "Sua nova pasta foi criada 🙂",
             textCancel: "Fechar",
             textOk: "Obrigado :)",
             btnCancel: () {},
@@ -150,7 +150,7 @@ class ListFolderController with AutoInject {
               title: "Finalizado",
               desc: "As pastas solicitadas foram removidas!",
               textCancel: "Fechar",
-              textOk: "Obrigado :)",
+              textOk: "Obrigado 🙂",
               btnCancel: () {},
               btnOk: () {}
             );
