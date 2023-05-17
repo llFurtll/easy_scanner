@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:reflect_inject/annotations/inject.dart';
 import 'package:reflect_inject/global/instances.dart';
 import 'package:reflect_inject/injection/auto_inject.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../controller/list_folder_controller.dart';
 import '../widget/list_folder_item.dart';
@@ -45,7 +46,27 @@ class ListFolderPageState extends State<ListFolderPage> {
           final isEmpty = widget.controller.folders.isEmpty;
 
           if (isEmpty) {
-            return const Center(child: Text("Nenhuma pasta encontrada!"));
+            return Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(
+                    "lib/assets/folder.svg",
+                    width: 150.0,
+                  ),
+                  const Text(
+                    "No momento você não criou nenhuma pasta 🙂",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25.0,
+                    ),
+                    maxLines: null,
+                    textAlign: TextAlign.center,
+                  )
+                ],
+              ),
+            );
           } 
 
           final items = widget.controller.folders;
