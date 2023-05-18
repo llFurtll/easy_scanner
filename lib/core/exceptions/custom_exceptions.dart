@@ -9,3 +9,9 @@ class FolderErrorDeleteException implements Exception {
 
   const FolderErrorDeleteException(this.message);
 }
+
+class GenerateImageException implements Exception {
+  final String message;
+
+  const GenerateImageException(this.message);
+}

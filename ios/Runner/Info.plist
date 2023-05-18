@@ -47,5 +47,7 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>O EasyScanner precisa de acesso a sua câmera para conseguir realizar os escaneamentos!</string>
 </dict>
 </plist>

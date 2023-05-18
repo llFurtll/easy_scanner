@@ -53,7 +53,28 @@ class ListDocumentPageState extends State<ListDocumentPage> {
           final isEmpty = widget.controller.documents.isEmpty;
 
           if (isEmpty) {
-            return const Center(child: Text("Nenhum documento encontrado!"));
+            return Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Icon(
+                    Icons.picture_as_pdf_rounded,
+                    size: 150.0,
+                    color: Colors.red,
+                  ),
+                  Text(
+                    "No momento você não criou nenhum documento 🙂",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25.0,
+                    ),
+                    maxLines: null,
+                    textAlign: TextAlign.center,
+                  )
+                ],
+              ),
+            );
           } 
 
           final items = widget.controller.documents;
@@ -76,7 +97,7 @@ class ListDocumentPageState extends State<ListDocumentPage> {
     return FloatingActionButton(
       onPressed: () {},
       backgroundColor: Colors.blue.shade700,
-      child: const Icon(Icons.add),
+      child: const Icon(Icons.document_scanner_rounded),
     );
   }
 
