@@ -95,7 +95,10 @@ class ListDocumentPageState extends State<ListDocumentPage> {
 
   Widget _buildFab() {
     return FloatingActionButton(
-      onPressed: () {},
+      onPressed: () => Navigator.of(context).pushNamed(
+        "/scanners",
+        arguments: widget.controller.nameFolder
+      ),
       backgroundColor: Colors.blue.shade700,
       child: const Icon(Icons.document_scanner_rounded),
     );

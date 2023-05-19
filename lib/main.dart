@@ -4,6 +4,7 @@ import 'package:reflect_inject/injection/auto_inject.dart';
 
 import 'features/document/presentation/list_document/pages/list_document_page.dart';
 import 'features/folder/presentation/list_folder/pages/list_folder_page.dart';
+import 'features/scanner/presentation/list_document_scanner/pages/list_document_scanner.dart';
 import 'main.reflectable.dart';
 
 void main() {
@@ -21,7 +22,8 @@ void main() {
       initialRoute: "/",
       routes: {
         "/": (context) => ListFolderPage(),
-        "/documents": (context) => ListDocumentPage()
+        "/documents": (context) => ListDocumentPage(),
+        "/scanners": (context) => ListDocumentScanner()
       },
     )
   );

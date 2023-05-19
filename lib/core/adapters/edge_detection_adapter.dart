@@ -4,6 +4,7 @@ import 'package:edge_detection/edge_detection.dart';
 import 'package:flutter/material.dart';
 import 'package:reflect_inject/annotations/inject.dart';
 import 'package:reflect_inject/global/instances.dart';
+import 'package:reflect_inject/injection/auto_inject.dart';
 
 import '../databases/storage.dart';
 import '../exceptions/custom_exceptions.dart';
@@ -18,15 +19,19 @@ abstract class EdgeDetectionAdapter {
 }
 
 @reflection
-class EdgeDetectionAdapterImpl extends EdgeDetectionAdapter {
+class EdgeDetectionAdapterImpl extends EdgeDetectionAdapter with AutoInject {
   @Inject(nameSetter: "setDataSource", type: DirectoryStorage)
   late final Storage<Directory> storage;
+
+  EdgeDetectionAdapterImpl() {
+    super.inject();
+  }
 
   @override
   Future<String> getImage(TypeEdgeDetection type) async {
     try {
       final defaultPath = await storage.getStorage();
-      final finalPath = Directory("${defaultPath.path}/tmp_images");
+      final finalPath = Directory("${defaultPath.path}/_tmp_images");
       if (!finalPath.existsSync()) {
         finalPath.createSync();
       }

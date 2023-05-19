@@ -14,6 +14,10 @@ class FolderErrorDeleteFailure extends Failure {
   FolderErrorDeleteFailure({required super.message});
 }
 
+class ImageDetectionFailure extends Failure {
+  ImageDetectionFailure({required super.message});
+}
+
 class UseCaseFailure extends Failure {
   UseCaseFailure({required super.message});
 }
