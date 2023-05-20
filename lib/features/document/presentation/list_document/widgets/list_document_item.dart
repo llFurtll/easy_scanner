@@ -39,9 +39,9 @@ class ListDocumentItem extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 5.0),
-                    const Text(
-                      "3.4 MB",
-                      style: TextStyle(
+                    Text(
+                      "Tamanho: ${document.size}",
+                      style: const TextStyle(
                         color: Colors.grey
                       ),
                     ),

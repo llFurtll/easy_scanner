@@ -102,6 +102,7 @@ class ListFolderPageState extends State<ListFolderPage> {
                       folder: items[index],
                       notifier: widget.controller.isEdit,
                       onChanged: widget.controller.changeSelectItem,
+                      afterPop: widget.controller.loadFolders,
                     ),
                     separatorBuilder: (context, index) => const SizedBox(height: 15.0),
                   ),

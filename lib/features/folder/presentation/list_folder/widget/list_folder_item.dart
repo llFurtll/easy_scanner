@@ -8,6 +8,7 @@ class ListFolderItem extends StatelessWidget {
   final Folder folder;
   final ValueNotifier<bool> notifier;
   final Function(ListFolderItem item, bool isCheck) onChanged;
+  final Function() afterPop;
   
   bool isCheck = false;
 
@@ -15,7 +16,8 @@ class ListFolderItem extends StatelessWidget {
     super.key,
     required this.folder,
     required this.notifier,
-    required this.onChanged
+    required this.onChanged,
+    required this.afterPop
   });
 
   @override
@@ -52,7 +54,7 @@ class ListFolderItem extends StatelessWidget {
                 child: InkWell(
                   onTap: () => Navigator.pushNamed(
                     context, "/documents", arguments: folder.name
-                  ),
+                  ).then((_) => afterPop()),
                   child: Container(
                     padding: const EdgeInsets.all(15.0),
                     decoration: BoxDecoration(

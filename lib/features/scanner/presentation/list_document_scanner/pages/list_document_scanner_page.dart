@@ -30,8 +30,14 @@ class ListDocumentScannerPageState extends State<ListDocumentScannerPage> {
   @override
   void dispose() {
     widget.controller.scanners.value.clear();
-    widget.controller.messagePdf.value = "Aguarde, gerando o PDF...";
+    widget.controller.messagePdf.value = "";
     super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    widget.controller.folderName = ModalRoute.of(context)!.settings.arguments as String;
+    super.didChangeDependencies();
   }
 
   @override
@@ -144,7 +150,7 @@ class ListDocumentScannerPageState extends State<ListDocumentScannerPage> {
                 SpeedDialChild(
                   child: const Icon(Icons.picture_as_pdf),
                   label: "Gerar PDF",
-                  onTap: widget.controller.generatePdf,
+                  onTap: widget.controller.setNameFile,
                   visible: value.isNotEmpty
                 )
               ],

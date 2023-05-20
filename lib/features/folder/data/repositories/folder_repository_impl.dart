@@ -40,8 +40,8 @@ class FolderRepositoryImpl extends FolderRepository with AutoInject {
     try {
       final result = await dataSource.delete(FolderModel.listEntity(folders));
       return Right(result);
-    } on FolderErrorDeleteFailure catch(e) {
-      return Left(FolderExistsFailure(message: e.message));
+    } on FolderErrorDeleteException catch(e) {
+      return Left(FolderErrorDeleteFailure(message: e.message));
     }
   }
 

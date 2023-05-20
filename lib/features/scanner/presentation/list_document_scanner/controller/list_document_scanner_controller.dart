@@ -1,35 +1,43 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:pdf/widgets.dart' as pw;
 import 'package:reflect_inject/annotations/inject.dart';
 import 'package:reflect_inject/global/instances.dart';
 import 'package:reflect_inject/injection/auto_inject.dart';
-import 'package:pdf/pdf.dart';
-import 'package:pdf/widgets.dart' as pw;
 
 import '../../../../../core/adapters/awesome_dialog_adapter.dart';
 import '../../../../../core/notifiers/list_notifier.dart';
 import '../../../../../core/usecases/usecase.dart';
+import '../../../../../core/widgets/loading.dart';
+import '../../../../document/domain/usecases/get_create_document.dart';
 import '../../../domain/entities/scanner.dart';
 import '../../../domain/usecases/get_images.dart';
 import '../widgets/document_scanner_item.dart';
+import '../widgets/new_pdf_dialog.dart';
 
 @reflection
 class ListDocumentScannerController with AutoInject {
   // INJECTS
   @Inject(nameSetter: "setGetImages")
-  late GetImages getImages;
+  late final GetImages getImages;
+
+  @Inject(nameSetter: "setGetCreateDocument")
+  late final GetCreateDocument getCreateDocument;
 
   // KEYS
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final formKey = GlobalKey<FormState>();
 
   // VARIABLES
   final scannersToDelete = <Scanner>[];
+  final textController = TextEditingController();
+  String folderName = "";
   
   // NOTIFIERS
   final scanners = ListNotifier<Scanner>(value: []);
   final isEdit = ValueNotifier(false);
-  final messagePdf = ValueNotifier("Aguarde, gerando o PDF...");
+  final messagePdf = ValueNotifier("");
 
   ListDocumentScannerController() {
     super.inject();
@@ -57,38 +65,36 @@ class ListDocumentScannerController with AutoInject {
     });
   }
 
-  void generatePdf() {
+  void setNameFile() {
+    showDialog(
+      context: scaffoldKey.currentContext!,
+      builder: (context) => NewPdfDialog(
+        formKey: formKey,
+        onSave: () {
+          if (formKey.currentState?.validate() ?? false) {
+            generatePdf();
+          }
+        },
+        textController: textController,
+      ),
+    );
+  }
+
+  void generatePdf() async {
+    String nameFile = textController.text;
+    if (!nameFile.endsWith(".pdf")) {
+      nameFile = "$nameFile.pdf";
+    }
+
+    Navigator.of(scaffoldKey.currentContext!).pop();
+
+    messagePdf.value = "Aguarde, gerando o PDF...";
+
     showDialog(
       barrierDismissible: false,
       context: scaffoldKey.currentContext!,
-      builder: (context) {
-        return Scaffold(
-          backgroundColor: Colors.transparent,
-          body: Center(
-            child: Container(
-              padding: const EdgeInsets.all(15.0),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(15.0)
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const CircularProgressIndicator(),
-                  const SizedBox(width: 20.0),
-                  ValueListenableBuilder(
-                    valueListenable: messagePdf,
-                    builder: (context, value, child) => Text(value),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
+      builder: (context) => Loading(message: messagePdf),
     );
-
-    return;
 
     final pdf = pw.Document();
     pdf.addPage(
@@ -107,6 +113,55 @@ class ListDocumentScannerController with AutoInject {
           );
         }
       )
+    );
+
+    messagePdf.value = "Aguarde, criando PDF...";
+
+    final response = await getCreateDocument(CreateDocumentParams(name: nameFile, folder: folderName));
+
+    messagePdf.value = "Aguarde, salvando PDF...";
+
+    bool isError = false;
+    await response.fold(
+      (left) {
+        Navigator.of(scaffoldKey.currentContext!).pop();
+        AwesomeDialogAdapter.showDialog(
+          context: scaffoldKey.currentContext!,
+          type: TypeDialog.error,
+          title: "Ah não :(",
+          desc: left.message,
+          textCancel: "Fechar",
+          textOk: "Beleza",
+          btnCancel: () {},
+          btnOk: () {}
+        );
+        isError = true;
+      },
+      (right) async {
+        final file = File(right.path);
+        file.writeAsBytesSync(await pdf.save());
+      }
+    );
+
+    if (isError) {
+      return;
+    }
+
+    Navigator.of(scaffoldKey.currentContext!).pop();
+
+    AwesomeDialogAdapter.showDialog(
+      context: scaffoldKey.currentContext!,
+      type: TypeDialog.success,
+      title: "Parabéns",
+      desc: "Seu PDF foi criado com sucesso 🙂",
+      textCancel: "Fechar",
+      textOk: "Show!",
+      btnCancel: () {
+        Navigator.of(scaffoldKey.currentContext!).pop();
+      },
+      btnOk: () async {
+        Navigator.of(scaffoldKey.currentContext!).pop();
+      }
     );
   }
 
@@ -189,5 +244,9 @@ class ListDocumentScannerController with AutoInject {
 
   set setGetImages(GetImages getImages) {
     this.getImages = getImages;
+  }
+
+  set setGetCreateDocument(GetCreateDocument getCreateDocument) {
+    this.getCreateDocument = getCreateDocument;
   }
 }

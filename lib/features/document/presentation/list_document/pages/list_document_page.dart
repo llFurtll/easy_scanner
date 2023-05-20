@@ -24,6 +24,7 @@ class ListDocumentPage extends StatefulWidget with AutoInject {
 }
 
 class ListDocumentPageState extends State<ListDocumentPage> {
+
   @override
   void didChangeDependencies() {
     final folder = ModalRoute.of(context)!.settings.arguments as String;
@@ -34,14 +35,15 @@ class ListDocumentPageState extends State<ListDocumentPage> {
 
   @override
   void dispose() {
-    super.dispose();
     widget.controller.documents.clear();
     widget.controller.isLoading.value = true;
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: widget.controller.scaffoldKey,
       appBar: _buildAppBar(),
       body: ValueListenableBuilder<bool>(
         valueListenable: widget.controller.isLoading,
@@ -78,13 +80,43 @@ class ListDocumentPageState extends State<ListDocumentPage> {
           } 
 
           final items = widget.controller.documents;
-          return ListView.separated(
-            padding: const EdgeInsets.all(35.0),
-            itemCount: items.length,
-            itemBuilder: (context, index) => ListDocumentItem(
-              document: items[index]
+          return Container(
+            padding: const EdgeInsets.only(
+              left: 35.0,
+              right: 35.0 
             ),
-            separatorBuilder: (context, index) => const SizedBox(height: 15.0),
+            child: Column(
+              children: [
+                Align(
+                  alignment: Alignment.topRight,
+                  child: TextButton(
+                    onPressed: widget.controller.setEdit,
+                    style: TextButton.styleFrom(
+                      textStyle: const TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold
+                      )
+                    ),
+                    child: ValueListenableBuilder(
+                      valueListenable: widget.controller.isEdit,
+                      builder: (context, value, child) {
+                        return Text(value ? "Cancelar" : "Editar");
+                      },
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: ListView.separated(
+                    padding: const EdgeInsets.all(35.0),
+                    itemCount: items.length,
+                    itemBuilder: (context, index) => ListDocumentItem(
+                      document: items[index]
+                    ),
+                    separatorBuilder: (context, index) => const SizedBox(height: 15.0),
+                  ),
+                )
+              ],
+            ),
           );
         },
       ),
@@ -98,7 +130,7 @@ class ListDocumentPageState extends State<ListDocumentPage> {
       onPressed: () => Navigator.of(context).pushNamed(
         "/scanners",
         arguments: widget.controller.nameFolder
-      ),
+      ).then((_) => widget.controller.loadDocuments(widget.controller.nameFolder)),
       backgroundColor: Colors.blue.shade700,
       child: const Icon(Icons.document_scanner_rounded),
     );

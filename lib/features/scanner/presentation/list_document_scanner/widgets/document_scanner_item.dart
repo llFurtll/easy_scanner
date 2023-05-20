@@ -58,7 +58,7 @@ class DocumentScannerItem extends StatelessWidget {
                     showDialog(
                       barrierDismissible: true,
                       context: context,
-                      builder:(context) {
+                      builder: (context) {
                         return Padding(
                           padding: const EdgeInsets.all(5.0),
                           child: Column(

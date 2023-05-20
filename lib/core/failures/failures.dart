@@ -14,6 +14,15 @@ class FolderErrorDeleteFailure extends Failure {
   FolderErrorDeleteFailure({required super.message});
 }
 
+class DocumentExistsFailure extends Failure {
+  DocumentExistsFailure({required super.message});
+}
+
+class DocumentErrorDeleteFailure extends Failure {
+  DocumentErrorDeleteFailure({required super.message});
+}
+
+
 class ImageDetectionFailure extends Failure {
   ImageDetectionFailure({required super.message});
 }
