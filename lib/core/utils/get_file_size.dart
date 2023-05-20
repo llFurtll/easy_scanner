@@ -7,7 +7,7 @@ Future<String> getFileSize(String path) async {
   if (bytes <= 0) return "0 B";
   const suffixes = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
   var i = (log(bytes) / log(1024)).floor();
-  return "${((bytes / pow(1024, i)))} ${suffixes[i]}";
+  return "${((bytes / pow(1024, i))).round()} ${suffixes[i]}";
 }
 
 Future<String> getFileFolder(String path) async {
@@ -22,5 +22,5 @@ Future<String> getFileFolder(String path) async {
   if (totalBytes <= 0) return "0 B";
   const suffixes = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
   var i = (log(totalBytes) / log(1024)).floor();
-  return "${((totalBytes / pow(1024, i)))} ${suffixes[i]}";
+  return "${((totalBytes / pow(1024, i))).round()} ${suffixes[i]}";
 }

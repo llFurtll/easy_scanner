@@ -36,7 +36,7 @@ class FolderDataSourceImpl extends FolderDataSource with AutoInject {
     final directory = await storage.getStorage();
     for (FileSystemEntity folder in directory.listSync()) {
       String nameFolder = pathAdapter.basename(folder.path);
-      if (FileSystemEntity.isDirectorySync(folder.path) && !nameFolder.startsWith("_")) {
+      if (FileSystemEntity.isDirectorySync(folder.path)) {
         String size = await getFileFolder(folder.path);
         result.add(
           FolderModel(

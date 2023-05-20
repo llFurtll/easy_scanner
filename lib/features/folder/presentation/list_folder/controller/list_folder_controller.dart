@@ -117,7 +117,7 @@ class ListFolderController with AutoInject {
       context: scaffoldKey.currentContext!,
       type: TypeDialog.question,
       title: "Cuidado",
-      desc: "Certeza que você deseja prosseguir? Seus dados deletados serão perdidos",
+      desc: "Certeza que você deseja prosseguir? Seus dados deletados serão perdidos!",
       textCancel: "Não quero",
       textOk: "Pode continuar",
       btnCancel: () {

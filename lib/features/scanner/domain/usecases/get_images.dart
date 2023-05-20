@@ -10,20 +10,20 @@ import '../entities/scanner.dart';
 import '../repositories/scanner_repository.dart';
 
 @reflection
-class GetScannerCamera extends UseCase<Scanner, NoParams> with AutoInject {
+class GetImages extends UseCase<List<Scanner>, NoParams> with AutoInject {
   @Inject(nameSetter: "setRepository", type: ScannerRepositoryImpl)
   late ScannerRepository repository;
 
-  GetScannerCamera() {
+  GetImages() {
     super.inject();
   }
 
   @override
-  Future<Result<Failure, Scanner>> call(NoParams params) async {
-    final response = await repository.getCamera();
+  Future<Result<Failure, List<Scanner>>> call(NoParams params) async {
+    final response = await repository.getImages();
     return response.fold(
       (left) => Left(
-        UseCaseFailure(message: "Não foi possível processar o escaneamento!")
+        UseCaseFailure(message: "Não foi possível processar as imagens!")
       ),
       (right) => Right(right));
   }
