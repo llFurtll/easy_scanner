@@ -107,10 +107,11 @@ class ListDocumentPageState extends State<ListDocumentPage> {
                 ),
                 Expanded(
                   child: ListView.separated(
-                    padding: const EdgeInsets.all(35.0),
                     itemCount: items.length,
                     itemBuilder: (context, index) => ListDocumentItem(
-                      document: items[index]
+                      document: items[index],
+                      notifier: widget.controller.isEdit,
+                      onChanged: widget.controller.changeSelectItem,
                     ),
                     separatorBuilder: (context, index) => const SizedBox(height: 15.0),
                   ),
@@ -126,13 +127,20 @@ class ListDocumentPageState extends State<ListDocumentPage> {
   }
 
   Widget _buildFab() {
-    return FloatingActionButton(
-      onPressed: () => Navigator.of(context).pushNamed(
-        "/scanners",
-        arguments: widget.controller.nameFolder
-      ).then((_) => widget.controller.loadDocuments(widget.controller.nameFolder)),
-      backgroundColor: Colors.blue.shade700,
-      child: const Icon(Icons.document_scanner_rounded),
+    return ValueListenableBuilder(
+      valueListenable: widget.controller.isEdit,
+      builder: (context, value, child) {
+        return FloatingActionButton(
+          onPressed: value ?
+            widget.controller.defeleteDocuments :
+            () => Navigator.of(context).pushNamed(
+              "/scanners",
+              arguments: widget.controller.nameFolder
+            ).then((_) => widget.controller.loadDocuments(widget.controller.nameFolder)),
+          backgroundColor: value ? Colors.red : Colors.blue.shade700,
+          child: Icon(value ? Icons.delete : Icons.add),
+        );
+      },
     );
   }
 

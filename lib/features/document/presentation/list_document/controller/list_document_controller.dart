@@ -7,6 +7,7 @@ import '../../../../../core/adapters/awesome_dialog_adapter.dart';
 import '../../../domain/entities/document.dart';
 import '../../../domain/usecases/get_delete_document.dart';
 import '../../../domain/usecases/get_documents.dart';
+import '../widgets/list_document_item.dart';
 
 @reflection
 class ListDocumentController with AutoInject {
@@ -42,6 +43,14 @@ class ListDocumentController with AutoInject {
   void setEdit() {
     documentsToDelete.clear();
     isEdit.value = !isEdit.value;
+  }
+
+  void changeSelectItem(ListDocumentItem item, bool isCheck) {
+    if (isCheck) {
+      documentsToDelete.add(item.document);
+    } else {
+      documentsToDelete.remove(item.document);
+    }
   }
 
   void defeleteDocuments() {

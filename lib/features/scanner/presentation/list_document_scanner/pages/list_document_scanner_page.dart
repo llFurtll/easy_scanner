@@ -81,39 +81,39 @@ class ListDocumentScannerPageState extends State<ListDocumentScannerPage> {
           }
 
           return Column(
-              children: [
-                Align(
-                  alignment: Alignment.topRight,
-                  child: TextButton(
-                    onPressed: widget.controller.setEdit,
-                    style: TextButton.styleFrom(
-                      textStyle: const TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold
-                      )
-                    ),
-                    child: ValueListenableBuilder(
-                      valueListenable: widget.controller.isEdit,
-                      builder: (context, value, child) {
-                        return Text(value ? "Cancelar" : "Editar");
-                      },
-                    ),
+            children: [
+              Align(
+                alignment: Alignment.topRight,
+                child: TextButton(
+                  onPressed: widget.controller.setEdit,
+                  style: TextButton.styleFrom(
+                    textStyle: const TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold
+                    )
+                  ),
+                  child: ValueListenableBuilder(
+                    valueListenable: widget.controller.isEdit,
+                    builder: (context, value, child) {
+                      return Text(value ? "Cancelar" : "Editar");
+                    },
                   ),
                 ),
-                Expanded(
-                  child: ListView.separated(
-                    itemCount: value.length,
-                    itemBuilder: (context, index) => DocumentScannerItem(
-                      scanner: value[index],
-                      notifier: widget.controller.isEdit,
-                      position: index + 1,
-                      onChanged: widget.controller.changeSelectItem,
-                    ),
-                    separatorBuilder: (context, index) => const SizedBox(height: 15.0),
+              ),
+              Expanded(
+                child: ListView.separated(
+                  itemCount: value.length,
+                  itemBuilder: (context, index) => DocumentScannerItem(
+                    scanner: value[index],
+                    notifier: widget.controller.isEdit,
+                    position: index + 1,
+                    onChanged: widget.controller.changeSelectItem,
                   ),
-                )
-              ],
-            );
+                  separatorBuilder: (context, index) => const SizedBox(height: 15.0),
+                ),
+              )
+            ],
+          );
         },
       ),
     );
