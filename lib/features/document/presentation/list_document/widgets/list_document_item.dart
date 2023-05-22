@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:msh_checkbox/msh_checkbox.dart';
 
 import '../../../domain/entities/document.dart';
+import 'detail_bottom_sheet_item.dart';
 
 // ignore: must_be_immutable
 class ListDocumentItem extends StatelessWidget {
@@ -46,7 +47,21 @@ class ListDocumentItem extends StatelessWidget {
                 clipBehavior: Clip.antiAlias,
                 borderRadius: BorderRadius.circular(25.0),
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    showModalBottomSheet(
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(15.0),
+                          topRight: Radius.circular(15.0)
+                        )
+                      ),
+                      constraints: const BoxConstraints(
+                        maxHeight: 250.0
+                      ),
+                      context: context,
+                      builder: (context) => DetailBottomSheetItem(document: document),
+                    );
+                  },
                   child: Container(
                     padding: const EdgeInsets.all(15.0),
                     decoration: BoxDecoration(
