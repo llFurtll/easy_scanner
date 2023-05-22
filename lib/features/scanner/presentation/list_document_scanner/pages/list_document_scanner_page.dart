@@ -31,6 +31,7 @@ class ListDocumentScannerPageState extends State<ListDocumentScannerPage> {
   void dispose() {
     widget.controller.scanners.value.clear();
     widget.controller.messagePdf.value = "";
+    widget.controller.textController.text = "";
     super.dispose();
   }
 
