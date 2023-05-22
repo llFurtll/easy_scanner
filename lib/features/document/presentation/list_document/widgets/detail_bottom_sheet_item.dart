@@ -73,7 +73,7 @@ class DetailBottomSheetItem extends StatelessWidget {
 
     return Positioned(
       left: 170.0,
-      top: 50.0,
+      top: 70.0,
       child: SizedBox(
         width: sizeWithoutPadding,
         child: Text(

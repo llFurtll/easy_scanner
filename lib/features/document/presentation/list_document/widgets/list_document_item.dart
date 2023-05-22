@@ -56,7 +56,7 @@ class ListDocumentItem extends StatelessWidget {
                         )
                       ),
                       constraints: const BoxConstraints(
-                        maxHeight: 250.0
+                        maxHeight: 260.0
                       ),
                       context: context,
                       builder: (context) => DetailBottomSheetItem(document: document),
