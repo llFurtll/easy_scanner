@@ -100,16 +100,17 @@ class ListDocumentScannerController with AutoInject {
     pdf.addPage(
       pw.Page(
         build: (pw.Context context) {
-          return pw.ListView(
+          return pw.Column(
             children: scanners.value.map(
-              (item) => pw.Image(
-                pw.MemoryImage(
-                  File(item.path).readAsBytesSync()
+              (item) => pw.Padding(
+                padding: const pw.EdgeInsets.only(bottom: 10.0),
+                child: pw.Image(
+                  pw.MemoryImage(
+                    File(item.path).readAsBytesSync()
+                  )
                 )
               )
             ).toList(),
-            padding: const pw.EdgeInsets.all(5.0),
-            spacing: 10.0
           );
         }
       )

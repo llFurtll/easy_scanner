@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:reflect_inject/annotations/inject.dart';
+import 'package:reflect_inject/global/instances.dart';
+import 'package:reflect_inject/injection/auto_inject.dart';
 
+import '../../../../../core/adapters/url_launcher_adapter.dart';
 import '../../../domain/entities/document.dart';
 
-class DetailBottomSheetItem extends StatelessWidget {
+@reflection
+class DetailBottomSheetItem extends StatelessWidget with AutoInject {
+  @Inject(nameSetter: "setLauncher", type: UrlLauncherAdapterImpl)
+  late final UrlLauncherAdapter launcherAdapter;
+
   final Document document;
 
-  const DetailBottomSheetItem({super.key, required this.document});
+  DetailBottomSheetItem({super.key, required this.document}) {
+    super.inject();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +36,7 @@ class DetailBottomSheetItem extends StatelessWidget {
               ],
             )
           ),
-          _buildOpen(),
+          _buildOpen(context),
           const SizedBox(height: 15.0),
           _buildCompartilhar()
         ],
@@ -88,13 +98,18 @@ class DetailBottomSheetItem extends StatelessWidget {
     );
   }
 
-  Widget _buildOpen() {
+  Widget _buildOpen(BuildContext context) {
     return Material(
       borderRadius: BorderRadius.circular(15.0),
       color: Colors.blue.shade900,
       clipBehavior: Clip.antiAlias,
       child: InkWell(
-        onTap: () {},
+        onTap: () async {
+          final open = await launcherAdapter.openPdf(document.path);
+          if (!open) {
+            print("NAO DEU");
+          }
+        },
         child: Container(
           width: double.infinity,
           padding: const EdgeInsets.all(10.0),
@@ -148,5 +163,9 @@ class DetailBottomSheetItem extends StatelessWidget {
         ),
       )
     );
+  }
+
+  set setLauncher(UrlLauncherAdapter launcherAdapter) {
+    this.launcherAdapter = launcherAdapter;
   }
 }
