@@ -1,3 +1,4 @@
+import 'package:easy_scanner/core/adapters/awesome_dialog_adapter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:reflect_inject/annotations/inject.dart';
@@ -105,9 +106,22 @@ class DetailBottomSheetItem extends StatelessWidget with AutoInject {
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: () async {
-          final open = await launcherAdapter.openPdf(document.path);
-          if (!open) {
-            print("NAO DEU");
+          final result = await launcherAdapter.openPdf(document.path);
+          if (result.isNotEmpty) {
+            Future.value()
+              .then((value) {
+                AwesomeDialogAdapter.showDialog(
+                  context: context,
+                  type: TypeDialog.info,
+                  title: "Atenção",
+                  desc: result,
+                  textCancel: "Fechar",
+                  textOk: "Tudo bem 😔",
+                  btnCancel: () {},
+                  btnOk: () {}
+                );
+              }
+            );
           }
         },
         child: Container(
