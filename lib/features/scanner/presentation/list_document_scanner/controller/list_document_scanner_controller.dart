@@ -126,15 +126,12 @@ class ListDocumentScannerController with AutoInject {
     await response.fold(
       (left) {
         Navigator.of(scaffoldKey.currentContext!).pop();
-        AwesomeDialogAdapter.showDialog(
+        AwesomeDialogAdapter.showDialogMessage(
           context: scaffoldKey.currentContext!,
           type: TypeDialog.error,
           title: "Ah não :(",
-          desc: left.message,
-          textCancel: "Fechar",
-          textOk: "Beleza",
-          btnCancel: () {},
-          btnOk: () {}
+          textMessage: left.message,
+          textButton: "Beleza",
         );
         isError = true;
       },
@@ -180,15 +177,12 @@ class ListDocumentScannerController with AutoInject {
 
   void deleteScanners() {
     if (scannersToDelete.isEmpty) {
-      AwesomeDialogAdapter.showDialog(
+      AwesomeDialogAdapter.showDialogMessage(
         context: scaffoldKey.currentContext!,
         type: TypeDialog.warning,
         title: "Atenção",
-        desc: "Você precisa selecionar pelo menos um item!",
-        textCancel: "Fechar",
-        textOk: "Tudo bem!",
-        btnCancel: () {},
-        btnOk: () async {}
+        textMessage: "Você precisa selecionar pelo menos um item!",
+        textButton: "Tudo bem!",
       );
 
       return;
@@ -210,15 +204,12 @@ class ListDocumentScannerController with AutoInject {
         isEdit.value = false;
         scanners.emit();
 
-        AwesomeDialogAdapter.showDialog(
+        AwesomeDialogAdapter.showDialogMessage(
           context: scaffoldKey.currentContext!,
           type: TypeDialog.success,
           title: "Finalizado",
-          desc: "As fotos selecionadas foram removidas!",
-          textCancel: "Fechar",
-          textOk: "Obrigado 🙂",
-          btnCancel: () {},
-          btnOk: () {}
+          textMessage: "As fotos selecionadas foram removidas!",
+          textButton: "Obrigado 🙂",
         );
       }
     );

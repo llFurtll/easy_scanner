@@ -55,15 +55,12 @@ class ListDocumentController with AutoInject {
 
   void defeleteDocuments() {
     if (documentsToDelete.isEmpty) {
-      AwesomeDialogAdapter.showDialog(
+      AwesomeDialogAdapter.showDialogMessage(
         context: scaffoldKey.currentContext!,
         type: TypeDialog.warning,
         title: "Atenção",
-        desc: "Você precisa selecionar pelo menos um item!",
-        textCancel: "Fechar",
-        textOk: "Tudo bem!",
-        btnCancel: () {},
-        btnOk: () async {}
+        textMessage: "Você precisa selecionar pelo menos um item!",
+        textButton: "Tudo bem!"
       );
 
       return;
@@ -100,15 +97,12 @@ class ListDocumentController with AutoInject {
             loadDocuments(nameFolder);
             documentsToDelete.clear();
             isEdit.value = false;
-            AwesomeDialogAdapter.showDialog(
+            AwesomeDialogAdapter.showDialogMessage(
               context: scaffoldKey.currentContext!,
               type: TypeDialog.success,
               title: "Finalizado",
-              desc: "Os documentos solicitados foram removidos!",
-              textCancel: "Fechar",
-              textOk: "Obrigado 🙂",
-              btnCancel: () {},
-              btnOk: () {}
+              textMessage: "Os documentos solicitados foram removidos!",
+              textButton: "Obrigado 🙂",
             );
           }
         );

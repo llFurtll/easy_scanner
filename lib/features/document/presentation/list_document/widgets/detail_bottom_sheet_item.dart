@@ -110,15 +110,12 @@ class DetailBottomSheetItem extends StatelessWidget with AutoInject {
           if (result.isNotEmpty) {
             Future.value()
               .then((value) {
-                AwesomeDialogAdapter.showDialog(
+                AwesomeDialogAdapter.showDialogMessage(
                   context: context,
                   type: TypeDialog.info,
                   title: "Atenção",
-                  desc: result,
-                  textCancel: "Fechar",
-                  textOk: "Tudo bem 😔",
-                  btnCancel: () {},
-                  btnOk: () {}
+                  textMessage: result,
+                  textButton: "Tudo bem 😔",
                 );
               }
             );

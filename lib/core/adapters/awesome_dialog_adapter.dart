@@ -2,6 +2,44 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 
 class AwesomeDialogAdapter {
+  static void showDialogMessage({
+    required BuildContext context,
+    required TypeDialog type,
+    required String title,
+    required String textMessage,
+    required String textButton
+  }) {
+    AwesomeDialog(
+      context: context,
+      dialogType: type.type,
+      btnOkOnPress: () {},
+      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: double.infinity,
+            child: Text(
+              title,
+              style: const TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold
+              ),
+            ),
+          ),
+          const SizedBox(height: 15.0),
+          Text(
+            textMessage,
+            style: const TextStyle(
+              fontSize: 16.0,
+            ),
+          )
+        ],
+      ),
+      btnOkColor: Colors.blue.shade700
+    ).show();
+  }
+
   static void showDialog(
     {
       required BuildContext context,

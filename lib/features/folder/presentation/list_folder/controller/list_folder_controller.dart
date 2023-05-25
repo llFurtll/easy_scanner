@@ -68,29 +68,23 @@ class ListFolderController with AutoInject {
       result.fold(
         (left) {
           Navigator.of(scaffoldKey.currentContext!).pop();
-          AwesomeDialogAdapter.showDialog(
+          AwesomeDialogAdapter.showDialogMessage(
             context: scaffoldKey.currentContext!,
             type: TypeDialog.error,
             title: "Ah não :(",
-            desc: left.message,
-            textCancel: "Fechar",
-            textOk: "Beleza",
-            btnCancel: () {},
-            btnOk: () {}
+            textMessage: left.message,
+            textButton: "Beleza",
           );
         },
         (right) {
           Navigator.of(scaffoldKey.currentContext!).pop();
           loadFolders();
-          AwesomeDialogAdapter.showDialog(
+          AwesomeDialogAdapter.showDialogMessage(
             context: scaffoldKey.currentContext!,
             type: TypeDialog.success,
             title: "Parabéns",
-            desc: "Sua nova pasta foi criada 🙂",
-            textCancel: "Fechar",
-            textOk: "Obrigado :)",
-            btnCancel: () {},
-            btnOk: () {}
+            textMessage: "Sua nova pasta foi criada 🙂",
+            textButton: "Obrigado 🙂"
           );
         }
       );
@@ -129,30 +123,24 @@ class ListFolderController with AutoInject {
         );
         response.fold(
           (left) {
-            AwesomeDialogAdapter.showDialog(
+            AwesomeDialogAdapter.showDialogMessage(
               context: scaffoldKey.currentContext!,
               type: TypeDialog.error,
               title: "Ah não :(",
-              desc: left.message,
-              textCancel: "Fechar",
-              textOk: "Beleza",
-              btnCancel: () {},
-              btnOk: () {}
+              textMessage: left.message,
+              textButton: "Beleza",
             );
           },
           (right) {
             loadFolders();
             foldersToDelete.clear();
             isEdit.value = false;
-            AwesomeDialogAdapter.showDialog(
+            AwesomeDialogAdapter.showDialogMessage(
               context: scaffoldKey.currentContext!,
               type: TypeDialog.success,
               title: "Finalizado",
-              desc: "As pastas solicitadas foram removidas!",
-              textCancel: "Fechar",
-              textOk: "Obrigado 🙂",
-              btnCancel: () {},
-              btnOk: () {}
+              textMessage: "As pastas solicitadas foram removidas!",
+              textButton: "Obrigado 🙂",
             );
           }
         );
