@@ -13,6 +13,7 @@ class AwesomeDialogAdapter {
       context: context,
       dialogType: type.type,
       btnOkOnPress: () {},
+      btnOkText: textButton,
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,12 +30,15 @@ class AwesomeDialogAdapter {
             ),
           ),
           const SizedBox(height: 15.0),
-          Text(
+          SizedBox(
+            width: double.infinity,
+            child: Text(
             textMessage,
-            style: const TextStyle(
-              fontSize: 16.0,
+              style: const TextStyle(
+                fontSize: 16.0,
+              ),
+              textAlign: TextAlign.center,
             ),
-            textAlign: TextAlign.center,
           )
         ],
       ),
@@ -73,12 +77,15 @@ class AwesomeDialogAdapter {
             ),
           ),
           const SizedBox(height: 15.0),
-          Text(
-            desc,
-            style: const TextStyle(
-              fontSize: 16.0,
+          SizedBox(
+            width: double.infinity,
+            child: Text(
+              desc,
+              style: const TextStyle(
+                fontSize: 16.0,
+              ),
+              textAlign: TextAlign.center
             ),
-            textAlign: TextAlign.center
           )
         ],
       ),

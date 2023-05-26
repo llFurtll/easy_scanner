@@ -44,6 +44,7 @@ class ListFolderController with AutoInject {
   }
 
   void loadFolders() async {
+    folders.clear();
     isLoading.value = true;
     final result = await getFolders(NoParams());
     result.fold((left) => null, (right) => folders.addAll(right));

@@ -44,16 +44,13 @@ class ListDocumentScannerController with AutoInject {
   }
 
   void showInfo() {
-    AwesomeDialogAdapter.showDialog(
+    AwesomeDialogAdapter.showDialogMessage(
       context: scaffoldKey.currentContext!,
       type: TypeDialog.info,
       title: "Estamos quase lá!",
-      desc: "Aqui você poderá realizar os escaneamentos "
-            "e no final será criado um PDF com todas as fotos!",
-      textCancel: "Fechar",
-      textOk: "Maravilha 🙂",
-      btnCancel: () {},
-      btnOk: () {}
+      textMessage:  "Aqui você poderá realizar os escaneamentos "
+                    "e no final será criado um PDF com todas as fotos!",
+      textButton: "Maravilha 🙂",
     );
   }
 
