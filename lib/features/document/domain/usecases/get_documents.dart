@@ -12,7 +12,7 @@ import '../repositories/document_repository.dart';
 
 @reflection
 class GetDocuments extends UseCase<List<Document>, GetDocumentsParams> with AutoInject {
-  @Inject(nameSetter: "setRepository", type: DocumentRepositoryImpl)
+  @Inject(nameSetter: "setRepository", type: DocumentRepositoryImpl, global: true)
   late final DocumentRepository repository;
 
   GetDocuments() {

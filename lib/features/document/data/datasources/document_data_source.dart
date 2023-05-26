@@ -24,10 +24,10 @@ abstract class DocumentDataSource {
 
 @reflection
 class DocumentDataSourceImpl extends DocumentDataSource with AutoInject {
-  @Inject(nameSetter: "setDataSource", type: DirectoryStorage)
+  @Inject(nameSetter: "setDataSource", type: DirectoryStorage, global: true)
   late final Storage<Directory> storage;
 
-  @Inject(nameSetter: "setPath", type: PathAdapterImpl)
+  @Inject(nameSetter: "setPath", type: PathAdapterImpl, global: true)
   late final PathAdapter pathAdapter;
 
   DocumentDataSourceImpl() {

@@ -12,7 +12,7 @@ import '../repositories/document_repository.dart';
 
 @reflection
 class GetDeleteDocument extends UseCase<bool, DeleteDocumentParams> with AutoInject {
-  @Inject(nameSetter: "setRepository", type: DocumentRepositoryImpl)
+  @Inject(nameSetter: "setRepository", type: DocumentRepositoryImpl, global: true)
   late final DocumentRepository repository;
 
   GetDeleteDocument() {

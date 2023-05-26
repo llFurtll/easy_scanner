@@ -34,13 +34,6 @@ class ListDocumentPageState extends State<ListDocumentPage> {
   }
 
   @override
-  void dispose() {
-    widget.controller.documents.clear();
-    widget.controller.isLoading.value = true;
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: widget.controller.scaffoldKey,

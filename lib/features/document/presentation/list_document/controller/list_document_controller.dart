@@ -12,10 +12,10 @@ import '../widgets/list_document_item.dart';
 @reflection
 class ListDocumentController with AutoInject {
   // INJECT
-  @Inject(nameSetter: "setGetDocuments")
+  @Inject(nameSetter: "setGetDocuments", global: true)
   late final GetDocuments getDocuments;
 
-  @Inject(nameSetter: "setGetDeleteDocument")
+  @Inject(nameSetter: "setGetDeleteDocument", global: true)
   late final GetDeleteDocument getDeleteDocument;
   
   // NOTIFIERS

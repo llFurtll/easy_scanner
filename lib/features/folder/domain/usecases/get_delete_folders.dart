@@ -12,7 +12,7 @@ import '../repositories/folder_repository.dart';
 
 @reflection
 class GetDeleteFolders extends UseCase<bool, DeleteFoldersParams> with AutoInject {
-  @Inject(nameSetter: "setRepository", type: FolderRepositoryImpl)
+  @Inject(nameSetter: "setRepository", type: FolderRepositoryImpl, global: true)
   late final FolderRepository repository;
 
   GetDeleteFolders() {

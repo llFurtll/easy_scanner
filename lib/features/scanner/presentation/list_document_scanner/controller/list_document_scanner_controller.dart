@@ -19,10 +19,10 @@ import '../widgets/new_pdf_dialog.dart';
 @reflection
 class ListDocumentScannerController with AutoInject {
   // INJECTS
-  @Inject(nameSetter: "setGetImages")
+  @Inject(nameSetter: "setGetImages", global: true)
   late final GetImages getImages;
 
-  @Inject(nameSetter: "setGetCreateDocument")
+  @Inject(nameSetter: "setGetCreateDocument", global: true)
   late final GetCreateDocument getCreateDocument;
 
   // KEYS

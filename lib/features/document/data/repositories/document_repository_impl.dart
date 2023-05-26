@@ -14,7 +14,7 @@ import '../datasources/document_data_source.dart';
 
 @reflection
 class DocumentRepositoryImpl extends DocumentRepository with AutoInject {
-  @Inject(nameSetter: "setDataSource", type: DocumentDataSourceImpl)
+  @Inject(nameSetter: "setDataSource", type: DocumentDataSourceImpl, global: true)
   late final DocumentDataSource dataSource;
 
   DocumentRepositoryImpl() {

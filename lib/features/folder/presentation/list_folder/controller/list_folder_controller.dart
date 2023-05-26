@@ -1,4 +1,5 @@
 import 'package:easy_scanner/core/adapters/awesome_dialog_adapter.dart';
+import 'package:easy_scanner/core/adapters/permission_adapter.dart';
 import 'package:flutter/material.dart';
 import 'package:reflect_inject/annotations/inject.dart';
 import 'package:reflect_inject/global/instances.dart';
@@ -15,17 +16,20 @@ import '../widget/new_folder.dart';
 @reflection
 class ListFolderController with AutoInject {
   // INJECT
-  @Inject(nameSetter: "setGetFolders")
+  @Inject(nameSetter: "setGetFolders", global: true)
   late final GetFolders getFolders;
 
-  @Inject(nameSetter: "setGetCreateFolder")
+  @Inject(nameSetter: "setGetCreateFolder", global: true)
   late final GetCreateFolder getCreateFolder;
 
-  @Inject(nameSetter: "setGetDeleteFolder")
+  @Inject(nameSetter: "setGetDeleteFolder", global: true)
   late final GetDeleteFolders getDeleteFolders;
+
+  @Inject(nameSetter: "setPermission", type: PermissionAdapterImpl, global: true)
+  late final PermissionAdapter permissionAdapter;
   
   // NOTIFIERS
-  final isLoading = ValueNotifier(true);
+  final isLoading = ValueNotifier(false);
   final isEdit = ValueNotifier(false);
 
   // VARIABLES
@@ -40,14 +44,37 @@ class ListFolderController with AutoInject {
   }
 
   void loadFolders() async {
-    folders.clear();
     isLoading.value = true;
     final result = await getFolders(NoParams());
     result.fold((left) => null, (right) => folders.addAll(right));
     isLoading.value = false;
   }
 
-  void newFolder() {
+  void newFolder() async {
+    final acceptAll = await permissionAdapter.request([
+      TypePermission.camera,
+      TypePermission.storage
+    ]);
+    if (acceptAll.isNotEmpty) {
+      bool hasCamera = acceptAll.contains(TypePermission.camera);
+      bool hasStorage = acceptAll.contains(TypePermission.storage);
+
+      AwesomeDialogAdapter.showDialog(
+        context: scaffoldKey.currentContext!,
+        type: TypeDialog.info,
+        title: "Atenção!",
+        desc: "O EasyScanner necessita dessas permissões para seu funcionamento: \n\n"
+              "${hasCamera ? 'Câmera\n' : ''}"
+              "${hasStorage ? 'Armazenamento\n' : ''}",
+        textCancel: "Fechar",
+        textOk: "Abrir configurações",
+        btnCancel: () {},
+        btnOk: permissionAdapter.openConfigApp
+      ); 
+
+      return;
+    }
+
     showModalBottomSheet(
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
@@ -171,5 +198,9 @@ class ListFolderController with AutoInject {
 
   set setGetDeleteFolder(GetDeleteFolders getDeleteFolders) {
     this.getDeleteFolders = getDeleteFolders;
+  }
+
+  set setPermission(PermissionAdapter permissionAdapter) {
+    this.permissionAdapter = permissionAdapter;
   }
 }

@@ -10,7 +10,7 @@ import '../../../domain/entities/document.dart';
 
 @reflection
 class DetailBottomSheetItem extends StatelessWidget with AutoInject {
-  @Inject(nameSetter: "setLauncher", type: UrlLauncherAdapterImpl)
+  @Inject(nameSetter: "setLauncher", type: UrlLauncherAdapterImpl, global: true)
   late final UrlLauncherAdapter launcherAdapter;
 
   final Document document;

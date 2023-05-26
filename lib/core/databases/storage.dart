@@ -12,7 +12,7 @@ abstract class Storage<T> {
 
 @reflection
 class DirectoryStorage extends Storage<Directory> with AutoInject {
-  @Inject(nameSetter: "setProvider", type: PathProviderAdapterImpl)
+  @Inject(nameSetter: "setProvider", type: PathProviderAdapterImpl, global: true)
   late final PathProviderAdapter provider;
 
   DirectoryStorage() {

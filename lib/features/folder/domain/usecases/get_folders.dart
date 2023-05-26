@@ -11,7 +11,7 @@ import '../repositories/folder_repository.dart';
 
 @reflection
 class GetFolders extends UseCase<List<Folder>, NoParams> with AutoInject {
-  @Inject(nameSetter: "setRepository", type: FolderRepositoryImpl)
+  @Inject(nameSetter: "setRepository", type: FolderRepositoryImpl, global: true)
   late final FolderRepository repository;
 
   GetFolders() {

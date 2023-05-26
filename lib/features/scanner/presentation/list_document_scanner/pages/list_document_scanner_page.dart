@@ -26,15 +26,6 @@ class ListDocumentScannerPage extends StatefulWidget with AutoInject {
 }
 
 class ListDocumentScannerPageState extends State<ListDocumentScannerPage> {
-
-  @override
-  void dispose() {
-    widget.controller.scanners.value.clear();
-    widget.controller.messagePdf.value = "";
-    widget.controller.textController.text = "";
-    super.dispose();
-  }
-
   @override
   void didChangeDependencies() {
     widget.controller.folderName = ModalRoute.of(context)!.settings.arguments as String;

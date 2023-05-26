@@ -25,6 +25,7 @@ class AwesomeDialogAdapter {
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold
               ),
+              textAlign: TextAlign.center,
             ),
           ),
           const SizedBox(height: 15.0),
@@ -33,6 +34,7 @@ class AwesomeDialogAdapter {
             style: const TextStyle(
               fontSize: 16.0,
             ),
+            textAlign: TextAlign.center,
           )
         ],
       ),
@@ -55,8 +57,31 @@ class AwesomeDialogAdapter {
     AwesomeDialog(
       context: context,
       dialogType: type.type,
-      title: title,
-      desc: desc,
+      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: double.infinity,
+            child: Text(
+              title,
+              style: const TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          const SizedBox(height: 15.0),
+          Text(
+            desc,
+            style: const TextStyle(
+              fontSize: 16.0,
+            ),
+            textAlign: TextAlign.center
+          )
+        ],
+      ),
       btnCancelText: textCancel,
       btnOkText: textOk,
       btnCancelOnPress: btnCancel,
