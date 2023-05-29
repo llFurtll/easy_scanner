@@ -22,7 +22,7 @@ void main() {
       debugShowCheckedModeBanner: false,
       initialRoute: "/splash",
       routes: {
-        "/": (context) => ListFolderPage(),
+        "/": (context) => const ListFolderPage(),
         "/splash": (context) => SplashPage(),
         "/documents": (context) => ListDocumentPage(),
         "/scanners": (context) => ListDocumentScannerPage()

@@ -7,43 +7,41 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../controller/list_folder_controller.dart';
 import '../widget/list_folder_item.dart';
 
+class ListFolderPage extends StatefulWidget {
+  const ListFolderPage({super.key});
+
+  @override
+  State<StatefulWidget> createState() => ListFolderPageState();
+}
+
 @reflection
-class ListFolderPage extends StatefulWidget with AutoInject {
+class ListFolderPageState extends State<ListFolderPage> with AutoInject {
   @Inject(nameSetter: "setController")
   late final ListFolderController controller;
 
-  ListFolderPage({super.key}) {
+  ListFolderPageState() {
     super.inject();
   }
 
   @override
-  State<StatefulWidget> createState() => ListFolderPageState();
-
-  set setController(ListFolderController controller) {
-    this.controller = controller;
-  }
-}
-
-class ListFolderPageState extends State<ListFolderPage> {
-  @override
   void initState() {
     super.initState();
-    widget.controller.loadFolders();
+    controller.loadFolders();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: widget.controller.scaffoldKey,
+      key: controller.scaffoldKey,
       appBar: _buildAppBar(),
       body: ValueListenableBuilder<bool>(
-        valueListenable: widget.controller.isLoading,
+        valueListenable: controller.isLoading,
         builder: (context, value, child) {
           if (value) {
             return const Center(child: CircularProgressIndicator());
           }
 
-          final isEmpty = widget.controller.folders.isEmpty;
+          final isEmpty = controller.folders.isEmpty;
 
           if (isEmpty) {
             return Center(
@@ -69,7 +67,7 @@ class ListFolderPageState extends State<ListFolderPage> {
             );
           } 
 
-          final items = widget.controller.folders;
+          final items = controller.folders;
           return Container(
             padding: const EdgeInsets.only(
               left: 35.0,
@@ -80,7 +78,7 @@ class ListFolderPageState extends State<ListFolderPage> {
                 Align(
                   alignment: Alignment.topRight,
                   child: TextButton(
-                    onPressed: widget.controller.setEdit,
+                    onPressed: controller.setEdit,
                     style: TextButton.styleFrom(
                       textStyle: const TextStyle(
                         fontSize: 16.0,
@@ -88,7 +86,7 @@ class ListFolderPageState extends State<ListFolderPage> {
                       )
                     ),
                     child: ValueListenableBuilder(
-                      valueListenable: widget.controller.isEdit,
+                      valueListenable: controller.isEdit,
                       builder: (context, value, child) {
                         return Text(value ? "Cancelar" : "Editar");
                       },
@@ -100,9 +98,9 @@ class ListFolderPageState extends State<ListFolderPage> {
                     itemCount: items.length,
                     itemBuilder: (context, index) => ListFolderItem(
                       folder: items[index],
-                      notifier: widget.controller.isEdit,
-                      onChanged: widget.controller.changeSelectItem,
-                      afterPop: widget.controller.loadFolders,
+                      notifier: controller.isEdit,
+                      onChanged: controller.changeSelectItem,
+                      afterPop: controller.loadFolders,
                     ),
                     separatorBuilder: (context, index) => const SizedBox(height: 15.0),
                   ),
@@ -119,10 +117,10 @@ class ListFolderPageState extends State<ListFolderPage> {
 
   Widget _buildFab() {
     return ValueListenableBuilder(
-      valueListenable: widget.controller.isEdit,
+      valueListenable: controller.isEdit,
       builder: (context, value, child) {
         return FloatingActionButton(
-          onPressed: value ? widget.controller.deleteFolders :  widget.controller.newFolder,
+          onPressed: value ? controller.deleteFolders :  controller.newFolder,
           backgroundColor: value ? Colors.red : Colors.blue.shade700,
           child: Icon(value ? Icons.delete : Icons.add),
         );
@@ -146,5 +144,9 @@ class ListFolderPageState extends State<ListFolderPage> {
         fontWeight: FontWeight.bold
       ),
     );
+  }
+
+  set setController(ListFolderController controller) {
+    this.controller = controller;
   }
 }
