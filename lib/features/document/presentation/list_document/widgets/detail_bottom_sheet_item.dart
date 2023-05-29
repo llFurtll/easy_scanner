@@ -1,10 +1,13 @@
-import 'package:easy_scanner/core/adapters/awesome_dialog_adapter.dart';
+import 'dart:io';
+
+import '../../../../../core/adapters/awesome_dialog_adapter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:reflect_inject/annotations/inject.dart';
 import 'package:reflect_inject/global/instances.dart';
 import 'package:reflect_inject/injection/auto_inject.dart';
 
+import '../../../../../core/adapters/share_plus_adapter.dart';
 import '../../../../../core/adapters/url_launcher_adapter.dart';
 import '../../../domain/entities/document.dart';
 
@@ -12,6 +15,9 @@ import '../../../domain/entities/document.dart';
 class DetailBottomSheetItem extends StatelessWidget with AutoInject {
   @Inject(nameSetter: "setLauncher", type: UrlLauncherAdapterImpl, global: true)
   late final UrlLauncherAdapter launcherAdapter;
+
+  @Inject(nameSetter: "setShare", type: SharePlusAdapterImpl, global: true)
+  late final SharePlusAdapter sharePlusAdapter;
 
   final Document document;
 
@@ -115,7 +121,7 @@ class DetailBottomSheetItem extends StatelessWidget with AutoInject {
                   type: TypeDialog.info,
                   title: "Atenção",
                   textMessage: result,
-                  textButton: "Tudo bem 😔",
+                  textButton: "Tudo bem!",
                 );
               }
             );
@@ -151,7 +157,7 @@ class DetailBottomSheetItem extends StatelessWidget with AutoInject {
       color: Colors.blue.shade700,
       clipBehavior: Clip.antiAlias,
       child: InkWell(
-        onTap: () {},
+        onTap: () => sharePlusAdapter.share(File(document.path)),
         child: Container(
           width: double.infinity,
           padding: const EdgeInsets.all(10.0),
@@ -178,5 +184,9 @@ class DetailBottomSheetItem extends StatelessWidget with AutoInject {
 
   set setLauncher(UrlLauncherAdapter launcherAdapter) {
     this.launcherAdapter = launcherAdapter;
+  }
+
+  set setShare(SharePlusAdapter sharePlusAdapter) {
+    this.sharePlusAdapter = sharePlusAdapter;
   }
 }

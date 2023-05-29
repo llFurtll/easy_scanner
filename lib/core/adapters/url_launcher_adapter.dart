@@ -17,8 +17,8 @@ class UrlLauncherAdapterImpl extends UrlLauncherAdapter {
         case ResultType.noAppToOpen:
           return "Seu dispositivo não contém um aplicativo para ser aberto o PDF!";
         case ResultType.permissionDenied:
-          return "O EasyScanner não tem permissão para ler o"
-                  "armazenamento do dispotivo, por favor dê autorize a permissão "
+          return "O EasyScanner não tem permissão para ler o "
+                  "armazenamento do dispotivo, por favor autorize a permissão "
                   "nas configurações do aplicativo e tente novamente!";
         case ResultType.error:
           return "Não foi possível abrir o PDF, por favor tente novamente!";

@@ -54,11 +54,14 @@ class ListFolderController with AutoInject {
   void newFolder() async {
     final acceptAll = await permissionAdapter.request([
       TypePermission.camera,
-      TypePermission.storage
+      TypePermission.storage,
+      TypePermission.manageExternalStorage
     ]);
     if (acceptAll.isNotEmpty) {
       bool hasCamera = acceptAll.contains(TypePermission.camera);
-      bool hasStorage = acceptAll.contains(TypePermission.storage);
+      bool hasStorage =
+        acceptAll.contains(TypePermission.storage) ||
+        acceptAll.contains(TypePermission.manageExternalStorage);
 
       AwesomeDialogAdapter.showDialog(
         context: scaffoldKey.currentContext!,

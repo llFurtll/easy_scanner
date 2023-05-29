@@ -95,20 +95,22 @@ class ListDocumentScannerController with AutoInject {
 
     final pdf = pw.Document();
     pdf.addPage(
-      pw.Page(
+      pw.MultiPage(
         build: (pw.Context context) {
-          return pw.Column(
-            children: scanners.value.map(
-              (item) => pw.Padding(
-                padding: const pw.EdgeInsets.only(bottom: 10.0),
-                child: pw.Image(
-                  pw.MemoryImage(
-                    File(item.path).readAsBytesSync()
+          return [
+            pw.Column(
+              children: scanners.value.map(
+                (item) => pw.Padding(
+                  padding: const pw.EdgeInsets.only(bottom: 10.0),
+                  child: pw.Image(
+                    pw.MemoryImage(
+                      File(item.path).readAsBytesSync()
+                    )
                   )
                 )
-              )
-            ).toList(),
-          );
+              ).toList()
+            )
+          ];
         }
       )
     );
@@ -144,19 +146,12 @@ class ListDocumentScannerController with AutoInject {
 
     Navigator.of(scaffoldKey.currentContext!).pop();
 
-    AwesomeDialogAdapter.showDialog(
+    AwesomeDialogAdapter.showDialogMessage(
       context: scaffoldKey.currentContext!,
       type: TypeDialog.success,
       title: "Parabéns",
-      desc: "Seu PDF foi criado com sucesso 🙂",
-      textCancel: "Fechar",
-      textOk: "Show!",
-      btnCancel: () {
-        Navigator.of(scaffoldKey.currentContext!).pop();
-      },
-      btnOk: () async {
-        Navigator.of(scaffoldKey.currentContext!).pop();
-      }
+      textMessage: "Seu PDF foi criado com sucesso 🙂",
+      textButton: "Show!",
     );
   }
 
