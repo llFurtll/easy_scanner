@@ -23,9 +23,9 @@ void main() {
       initialRoute: "/splash",
       routes: {
         "/": (context) => const ListFolderPage(),
-        "/splash": (context) => SplashPage(),
-        "/documents": (context) => ListDocumentPage(),
-        "/scanners": (context) => ListDocumentScannerPage()
+        "/splash": (context) => const SplashPage(),
+        "/documents": (context) => const ListDocumentPage(),
+        "/scanners": (context) => const ListDocumentScannerPage()
       },
     )
   );

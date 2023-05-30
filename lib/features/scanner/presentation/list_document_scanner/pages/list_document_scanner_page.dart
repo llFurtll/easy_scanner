@@ -7,35 +7,33 @@ import 'package:reflect_inject/injection/auto_inject.dart';
 
 import '../controller/list_document_scanner_controller.dart';
 
-@reflection
 // ignore: must_be_immutable
-class ListDocumentScannerPage extends StatefulWidget with AutoInject {
+class ListDocumentScannerPage extends StatefulWidget {
+  const ListDocumentScannerPage({super.key});
+
+  @override
+  ListDocumentScannerPageState createState() => ListDocumentScannerPageState();
+}
+
+@reflection
+class ListDocumentScannerPageState extends State<ListDocumentScannerPage> with AutoInject {
   @Inject(nameSetter: "setController")
   late ListDocumentScannerController controller;
 
-  ListDocumentScannerPage({super.key}) {
+  ListDocumentScannerPageState() {
     super.inject();
   }
 
   @override
-  ListDocumentScannerPageState createState() => ListDocumentScannerPageState();
-
-  set setController(ListDocumentScannerController controller) {
-    this.controller = controller;
-  }
-}
-
-class ListDocumentScannerPageState extends State<ListDocumentScannerPage> {
-  @override
   void didChangeDependencies() {
-    widget.controller.folderName = ModalRoute.of(context)!.settings.arguments as String;
+    controller.folderName = ModalRoute.of(context)!.settings.arguments as String;
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: widget.controller.scaffoldKey,
+      key: controller.scaffoldKey,
       appBar: _buildAppBar(),
       body: _buildBody(),
       floatingActionButton: _buildFab(),
@@ -49,7 +47,7 @@ class ListDocumentScannerPageState extends State<ListDocumentScannerPage> {
         right: 35.0 
       ),
       child: ValueListenableBuilder(
-        valueListenable: widget.controller.scanners,
+        valueListenable: controller.scanners,
         builder: (context, value, child) {
           if (value.isEmpty) {
             return Center(
@@ -77,7 +75,7 @@ class ListDocumentScannerPageState extends State<ListDocumentScannerPage> {
               Align(
                 alignment: Alignment.topRight,
                 child: TextButton(
-                  onPressed: widget.controller.setEdit,
+                  onPressed: controller.setEdit,
                   style: TextButton.styleFrom(
                     textStyle: const TextStyle(
                       fontSize: 16.0,
@@ -85,7 +83,7 @@ class ListDocumentScannerPageState extends State<ListDocumentScannerPage> {
                     )
                   ),
                   child: ValueListenableBuilder(
-                    valueListenable: widget.controller.isEdit,
+                    valueListenable: controller.isEdit,
                     builder: (context, value, child) {
                       return Text(value ? "Cancelar" : "Editar");
                     },
@@ -97,9 +95,9 @@ class ListDocumentScannerPageState extends State<ListDocumentScannerPage> {
                   itemCount: value.length,
                   itemBuilder: (context, index) => DocumentScannerItem(
                     scanner: value[index],
-                    notifier: widget.controller.isEdit,
+                    notifier: controller.isEdit,
                     position: index + 1,
-                    onChanged: widget.controller.changeSelectItem,
+                    onChanged: controller.changeSelectItem,
                   ),
                   separatorBuilder: (context, index) => const SizedBox(height: 15.0),
                 ),
@@ -113,18 +111,18 @@ class ListDocumentScannerPageState extends State<ListDocumentScannerPage> {
 
   Widget _buildFab() {
     return ValueListenableBuilder(
-      valueListenable: widget.controller.isEdit,
+      valueListenable: controller.isEdit,
       builder: (context, value, child) {
         if (value) {
           return FloatingActionButton(
-            onPressed: widget.controller.deleteScanners,
+            onPressed: controller.deleteScanners,
             backgroundColor: Colors.red,
             child: const Icon(Icons.delete),
           );
         }
 
         return ValueListenableBuilder(
-          valueListenable: widget.controller.scanners,
+          valueListenable: controller.scanners,
           builder: (context, value, child) {
             return SpeedDial(
               spaceBetweenChildren: 5.0,
@@ -137,12 +135,12 @@ class ListDocumentScannerPageState extends State<ListDocumentScannerPage> {
                 SpeedDialChild(
                   child: const Icon(Icons.camera),
                   label: "Tirar foto",
-                  onTap: widget.controller.takeImages
+                  onTap: controller.takeImages
                 ),
                 SpeedDialChild(
                   child: const Icon(Icons.picture_as_pdf),
                   label: "Gerar PDF",
-                  onTap: widget.controller.setNameFile,
+                  onTap: controller.setNameFile,
                   visible: value.isNotEmpty
                 )
               ],
@@ -162,7 +160,7 @@ class ListDocumentScannerPageState extends State<ListDocumentScannerPage> {
         )
       ),
       leading: IconButton(
-        onPressed: widget.controller.back,
+        onPressed: controller.back,
         icon: const Icon(Icons.arrow_back),
       ),
       backgroundColor: Colors.blue.shade700,
@@ -173,10 +171,14 @@ class ListDocumentScannerPageState extends State<ListDocumentScannerPage> {
       ),
       actions: [
         IconButton(
-          onPressed: widget.controller.showInfo,
+          onPressed: controller.showInfo,
           icon: const Icon(Icons.info)
         )
       ],
     );
+  }
+
+  set setController(ListDocumentScannerController controller) {
+    this.controller = controller;
   }
 }

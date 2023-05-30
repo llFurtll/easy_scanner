@@ -5,18 +5,8 @@ import 'package:reflect_inject/injection/auto_inject.dart';
 
 import '../controller/splash_controller.dart';
 
-@reflection
-class SplashPage extends StatefulWidget with AutoInject {
-  @Inject(nameSetter: "setController")
-  late final SplashController controller;
-
-  SplashPage({super.key}) {
-    super.inject();
-  }
-
-  set setController(SplashController controller) {
-    this.controller = controller;
-  }
+class SplashPage extends StatefulWidget {
+  const SplashPage({super.key});
   
   @override
   State<StatefulWidget> createState() {
@@ -24,12 +14,19 @@ class SplashPage extends StatefulWidget with AutoInject {
   }
 }
 
-class SplashPageState extends State<SplashPage> {
+@reflection
+class SplashPageState extends State<SplashPage> with AutoInject {
+  @Inject(nameSetter: "setController")
+  late final SplashController controller;
+
+  SplashPageState() {
+    super.inject();
+  }
+
   @override
   void initState() {
     super.initState();
-    widget
-      .controller.init()
+    controller.init()
       .then((_) => Future.delayed(const Duration(seconds: 2)))
       .then((_) {
         Navigator.of(context).pushNamed("/");
@@ -43,5 +40,9 @@ class SplashPageState extends State<SplashPage> {
         color: Colors.blue.shade700,
       ),
     );
+  }
+
+  set setController(SplashController controller) {
+    this.controller = controller;
   }
 }

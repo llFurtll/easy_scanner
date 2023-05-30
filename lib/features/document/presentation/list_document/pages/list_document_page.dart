@@ -6,46 +6,43 @@ import 'package:reflect_inject/injection/auto_inject.dart';
 import '../controller/list_document_controller.dart';
 import '../widgets/list_document_item.dart';
 
+class ListDocumentPage extends StatefulWidget {
+  const ListDocumentPage({super.key});
+
+  @override
+  ListDocumentPageState createState() => ListDocumentPageState();
+}
+
 @reflection
-class ListDocumentPage extends StatefulWidget with AutoInject {
+class ListDocumentPageState extends State<ListDocumentPage> with AutoInject {
   @Inject(nameSetter: "setController")
   late final ListDocumentController controller;
 
-  ListDocumentPage({super.key}) {
+  ListDocumentPageState() {
     super.inject();
   }
 
   @override
-  ListDocumentPageState createState() => ListDocumentPageState();
-
-  set setController(ListDocumentController controller) {
-    this.controller = controller;
-  }
-}
-
-class ListDocumentPageState extends State<ListDocumentPage> {
-
-  @override
   void didChangeDependencies() {
     final folder = ModalRoute.of(context)!.settings.arguments as String;
-    widget.controller.nameFolder = folder;
-    widget.controller.loadDocuments(folder);
+    controller.nameFolder = folder;
+    controller.loadDocuments(folder);
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: widget.controller.scaffoldKey,
+      key: controller.scaffoldKey,
       appBar: _buildAppBar(),
       body: ValueListenableBuilder<bool>(
-        valueListenable: widget.controller.isLoading,
+        valueListenable: controller.isLoading,
         builder: (context, value, child) {
           if (value) {
             return const Center(child: CircularProgressIndicator());
           }
 
-          final isEmpty = widget.controller.documents.isEmpty;
+          final isEmpty = controller.documents.isEmpty;
 
           if (isEmpty) {
             return Center(
@@ -72,7 +69,7 @@ class ListDocumentPageState extends State<ListDocumentPage> {
             );
           } 
 
-          final items = widget.controller.documents;
+          final items = controller.documents;
           return Container(
             padding: const EdgeInsets.only(
               left: 35.0,
@@ -83,7 +80,7 @@ class ListDocumentPageState extends State<ListDocumentPage> {
                 Align(
                   alignment: Alignment.topRight,
                   child: TextButton(
-                    onPressed: widget.controller.setEdit,
+                    onPressed: controller.setEdit,
                     style: TextButton.styleFrom(
                       textStyle: const TextStyle(
                         fontSize: 16.0,
@@ -91,7 +88,7 @@ class ListDocumentPageState extends State<ListDocumentPage> {
                       )
                     ),
                     child: ValueListenableBuilder(
-                      valueListenable: widget.controller.isEdit,
+                      valueListenable: controller.isEdit,
                       builder: (context, value, child) {
                         return Text(value ? "Cancelar" : "Editar");
                       },
@@ -103,8 +100,8 @@ class ListDocumentPageState extends State<ListDocumentPage> {
                     itemCount: items.length,
                     itemBuilder: (context, index) => ListDocumentItem(
                       document: items[index],
-                      notifier: widget.controller.isEdit,
-                      onChanged: widget.controller.changeSelectItem,
+                      notifier: controller.isEdit,
+                      onChanged: controller.changeSelectItem,
                     ),
                     separatorBuilder: (context, index) => const SizedBox(height: 15.0),
                   ),
@@ -121,15 +118,15 @@ class ListDocumentPageState extends State<ListDocumentPage> {
 
   Widget _buildFab() {
     return ValueListenableBuilder(
-      valueListenable: widget.controller.isEdit,
+      valueListenable: controller.isEdit,
       builder: (context, value, child) {
         return FloatingActionButton(
           onPressed: value ?
-            widget.controller.defeleteDocuments :
+            controller.defeleteDocuments :
             () => Navigator.of(context).pushNamed(
               "/scanners",
-              arguments: widget.controller.nameFolder
-            ).then((_) => widget.controller.loadDocuments(widget.controller.nameFolder)),
+              arguments: controller.nameFolder
+            ).then((_) => controller.loadDocuments(controller.nameFolder)),
           backgroundColor: value ? Colors.red : Colors.blue.shade700,
           child: Icon(value ? Icons.delete : Icons.add),
         );
@@ -146,11 +143,15 @@ class ListDocumentPageState extends State<ListDocumentPage> {
         )
       ),
       backgroundColor: Colors.blue.shade700,
-      title: Text(widget.controller.nameFolder),
+      title: Text(controller.nameFolder),
       titleTextStyle: const TextStyle(
         fontSize: 30.0,
         fontWeight: FontWeight.bold
       ),
     );
+  }
+
+  set setController(ListDocumentController controller) {
+    this.controller = controller;
   }
 }

@@ -7,12 +7,13 @@ class AwesomeDialogAdapter {
     required TypeDialog type,
     required String title,
     required String textMessage,
-    required String textButton
+    required String textButton,
+    Function()? onPressed
   }) {
     AwesomeDialog(
       context: context,
       dialogType: type.type,
-      btnOkOnPress: () {},
+      btnOkOnPress: onPressed ?? () {},
       btnOkText: textButton,
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       body: Column(
@@ -42,7 +43,7 @@ class AwesomeDialogAdapter {
           )
         ],
       ),
-      btnOkColor: Colors.blue.shade700
+      btnOkColor: Colors.blue.shade700,
     ).show();
   }
 

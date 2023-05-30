@@ -152,6 +152,9 @@ class ListDocumentScannerController with AutoInject {
       title: "Parabéns",
       textMessage: "Seu PDF foi criado com sucesso 🙂",
       textButton: "Show!",
+      onPressed: () {
+        Navigator.of(scaffoldKey.currentContext!).pop();
+      }
     );
   }
 
