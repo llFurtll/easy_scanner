@@ -29,7 +29,9 @@ class SplashPageState extends State<SplashPage> with AutoInject {
     controller.init()
       .then((_) => Future.delayed(const Duration(seconds: 2)))
       .then((_) {
-        Navigator.of(context).pushNamed("/");
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          "/", ModalRoute.withName('/splash')
+        );
       });
   }
 
@@ -38,6 +40,9 @@ class SplashPageState extends State<SplashPage> with AutoInject {
     return Scaffold(
       body: Container(
         color: Colors.blue.shade700,
+        child: Center(
+          child: Image.asset("lib/assets/logo.png"),
+        ),
       ),
     );
   }
