@@ -53,6 +53,8 @@ class DocumentDataSourceImpl extends DocumentDataSource with AutoInject {
       }
     }
 
+    result.sort((a, b) => a.name.compareTo(b.name));
+
     return result;
   }
 

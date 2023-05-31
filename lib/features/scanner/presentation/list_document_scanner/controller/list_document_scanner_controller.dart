@@ -49,7 +49,10 @@ class ListDocumentScannerController with AutoInject {
       type: TypeDialog.info,
       title: "Estamos quase lá!",
       textMessage:  "Aqui você poderá realizar os escaneamentos "
-                    "e no final será criado um PDF com todas as fotos!",
+                    "e no final será criado um PDF com todas as fotos!\n\n"
+                    "Uma observação, que as imagens tem uma altura máxima "
+                    "de 500px(pixels). Se a imagem ultrapassar o tamanho, a mesma "
+                    "será cortada para exibição no PDF.",
       textButton: "Maravilha 🙂",
     );
   }
@@ -96,21 +99,24 @@ class ListDocumentScannerController with AutoInject {
     final pdf = pw.Document();
     pdf.addPage(
       pw.MultiPage(
+        maxPages: 200,
         build: (pw.Context context) {
-          return [
-            pw.Column(
-              children: scanners.value.map(
-                (item) => pw.Padding(
-                  padding: const pw.EdgeInsets.only(bottom: 10.0),
-                  child: pw.Image(
-                    pw.MemoryImage(
-                      File(item.path).readAsBytesSync()
-                    )
+          return scanners.value.map(
+            (item) => pw.Padding(
+              padding: const pw.EdgeInsets.only(bottom: 10.0),
+              child: pw.Container(
+                constraints: const pw.BoxConstraints(
+                  maxHeight: 500.0
+                ),
+                child: pw.Image(
+                  fit: pw.BoxFit.contain,
+                  pw.MemoryImage(
+                    File(item.path).readAsBytesSync()
                   )
                 )
-              ).toList()
+              )
             )
-          ];
+          ).toList();
         }
       )
     );
