@@ -52,7 +52,9 @@ class ListDocumentScannerController with AutoInject {
                     "e no final será criado um PDF com todas as fotos!\n\n"
                     "Uma observação, que as imagens tem uma altura máxima "
                     "de 500px(pixels). Se a imagem ultrapassar o tamanho, a mesma "
-                    "será cortada para exibição no PDF.",
+                    "será reajustada no PDF, podendo gerar perda de qualidade.\n\n"
+                    "Outro ponto importante que o PDF tem um limite total de 200 "
+                    "páginas.",
       textButton: "Maravilha 🙂",
     );
   }
@@ -102,17 +104,15 @@ class ListDocumentScannerController with AutoInject {
         maxPages: 200,
         build: (pw.Context context) {
           return scanners.value.map(
-            (item) => pw.Padding(
-              padding: const pw.EdgeInsets.only(bottom: 10.0),
-              child: pw.Container(
-                constraints: const pw.BoxConstraints(
-                  maxHeight: 500.0
-                ),
-                child: pw.Image(
-                  fit: pw.BoxFit.contain,
-                  pw.MemoryImage(
-                    File(item.path).readAsBytesSync()
-                  )
+            (item) => pw.Container(
+              constraints: const pw.BoxConstraints(
+                maxHeight: 500.0
+              ),
+              padding: const pw.EdgeInsets.only(bottom: 20.0),
+              child: pw.Image(
+                fit: pw.BoxFit.contain,
+                pw.MemoryImage(
+                  File(item.path).readAsBytesSync()
                 )
               )
             )
