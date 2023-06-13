@@ -1,4 +1,4 @@
-import 'package:open_file/open_file.dart';
+import 'package:open_filex/open_filex.dart';
 import 'package:reflect_inject/global/instances.dart';
 
 abstract class UrlLauncherAdapter {
@@ -10,7 +10,7 @@ class UrlLauncherAdapterImpl extends UrlLauncherAdapter {
   @override
   Future<String> openPdf(String path) async {
     try {
-      final result = await OpenFile.open(path);
+      final result = await OpenFilex.open(path);
       switch (result.type) {
         case ResultType.fileNotFound:
           return "O arquivo não foi encontrado!";

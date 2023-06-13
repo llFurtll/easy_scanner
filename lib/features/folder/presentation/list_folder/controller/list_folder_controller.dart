@@ -53,23 +53,17 @@ class ListFolderController with AutoInject {
 
   void newFolder() async {
     final acceptAll = await permissionAdapter.request([
-      TypePermission.camera,
-      TypePermission.storage,
-      TypePermission.manageExternalStorage
+      TypePermission.camera
     ]);
     if (acceptAll.isNotEmpty) {
       bool hasCamera = acceptAll.contains(TypePermission.camera);
-      bool hasStorage =
-        acceptAll.contains(TypePermission.storage) ||
-        acceptAll.contains(TypePermission.manageExternalStorage);
 
       AwesomeDialogAdapter.showDialog(
         context: scaffoldKey.currentContext!,
         type: TypeDialog.info,
         title: "Atenção!",
         desc: "O EasyScanner necessita dessas permissões para seu funcionamento: \n\n"
-              "${hasCamera ? 'Câmera\n' : ''}"
-              "${hasStorage ? 'Armazenamento\n' : ''}",
+              "${hasCamera ? 'Câmera\n' : ''}",
         textCancel: "Fechar",
         textOk: "Abrir configurações",
         btnCancel: () {},

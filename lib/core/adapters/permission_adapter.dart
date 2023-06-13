@@ -48,8 +48,6 @@ class TypePermission {
   final Permission permission;
 
   static TypePermission camera = TypePermission._(Permission.camera);
-  static TypePermission storage = TypePermission._(Permission.storage);
-  static TypePermission manageExternalStorage = TypePermission._(Permission.manageExternalStorage);
 
-  static List<TypePermission> getAllPermissions() => [camera, storage, manageExternalStorage];
+  static List<TypePermission> getAllPermissions() => [camera];
 }
