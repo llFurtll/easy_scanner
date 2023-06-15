@@ -33,12 +33,15 @@ dependencies:
   reflect_inject: ^1.0.0
   build_runner: ^2.3.3
   path_provider: ^2.0.15
-  path: 1.8.2
+  path: 1.8.3
   msh_checkbox: ^2.0.1
   awesome_dialog: ^3.0.2
   flutter_svg: ^2.0.5
   flutter_speed_dial: ^6.2.0
-  cunning_document_scanner: ^1.1.2
+  edge_detection:
+    git:
+      url: https://github.com/sawankumarbundelkhandi/edge_detection.git
+
   pdf: ^3.10.1
   open_filex: ^4.3.2
   permission_handler: ^10.2.0

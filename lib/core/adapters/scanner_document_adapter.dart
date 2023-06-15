@@ -1,4 +1,7 @@
-import 'package:cunning_document_scanner/cunning_document_scanner.dart';
+import 'dart:io';
+
+import 'package:edge_detection/edge_detection.dart';
+import 'package:flutter/material.dart';
 import 'package:reflect_inject/global/instances.dart';
 
 import '../exceptions/custom_exceptions.dart';
@@ -8,13 +11,25 @@ abstract class ScannerDocumentAdapter {
 }
 
 @reflection
-class ScannerDocumentAdapterImpl extends ScannerDocumentAdapter{
+class ScannerDocumentAdapterImpl extends ScannerDocumentAdapter {
+
   @override
   Future<List<String>> getImages() async {
     try {
-      final images = await CunningDocumentScanner.getPictures();
+      final dirTemp = Directory.systemTemp;
+      final nameFile = UniqueKey().hashCode;
+      final file = File("${dirTemp.path}/$nameFile.jpeg");
 
-      return images ?? [];
+      final success = await EdgeDetection.detectEdge(
+        file.path,
+        androidScanTitle: "Escolher foto"
+      );
+
+      if (success) {
+        return [file.path];
+      }
+
+      return [];
     } catch (_) {
       throw const GenerateImageException("error-generate-image");
     }
