@@ -22,7 +22,10 @@ class ScannerDocumentAdapterImpl extends ScannerDocumentAdapter {
 
       final success = await EdgeDetection.detectEdge(
         file.path,
-        androidScanTitle: "Escolher foto"
+        androidScanTitle: "Escolher foto",
+        androidCropTitle: "Cortar Imagem",
+        androidCropBlackWhiteTitle: "Preto e Branco",
+        androidCropReset: "Original"
       );
 
       if (success) {
