@@ -31,87 +31,90 @@ class ListFolderPageState extends State<ListFolderPage> with AutoInject {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: controller.scaffoldKey,
-      appBar: _buildAppBar(),
-      body: ValueListenableBuilder<bool>(
-        valueListenable: controller.isLoading,
-        builder: (context, value, child) {
-          if (value) {
-            return const Center(child: CircularProgressIndicator());
-          }
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        key: controller.scaffoldKey,
+        appBar: _buildAppBar(),
+        body: ValueListenableBuilder<bool>(
+          valueListenable: controller.isLoading,
+          builder: (context, value, child) {
+            if (value) {
+              return const Center(child: CircularProgressIndicator());
+            }
 
-          final isEmpty = controller.folders.isEmpty;
+            final isEmpty = controller.folders.isEmpty;
 
-          if (isEmpty) {
-            return Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SvgPicture.asset(
-                    "lib/assets/folder.svg",
-                    width: 150.0,
-                  ),
-                  const Text(
-                    "No momento você não criou nenhuma pasta 🙂",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25.0,
+            if (isEmpty) {
+              return Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      "lib/assets/folder.svg",
+                      width: 150.0,
                     ),
-                    maxLines: null,
-                    textAlign: TextAlign.center,
+                    const Text(
+                      "No momento você não criou nenhuma pasta 🙂",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25.0,
+                      ),
+                      maxLines: null,
+                      textAlign: TextAlign.center,
+                    )
+                  ],
+                ),
+              );
+            } 
+
+            final items = controller.folders;
+            return Container(
+              padding: const EdgeInsets.only(
+                left: 35.0,
+                right: 35.0 
+              ),
+              child: Column(
+                children: [
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: TextButton(
+                      onPressed: controller.setEdit,
+                      style: TextButton.styleFrom(
+                        textStyle: const TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold
+                        )
+                      ),
+                      child: ValueListenableBuilder(
+                        valueListenable: controller.isEdit,
+                        builder: (context, value, child) {
+                          return Text(value ? "Cancelar" : "Editar");
+                        },
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: ListView.separated(
+                      itemCount: items.length,
+                      itemBuilder: (context, index) => ListFolderItem(
+                        folder: items[index],
+                        notifier: controller.isEdit,
+                        onChanged: controller.changeSelectItem,
+                        afterPop: controller.loadFolders,
+                      ),
+                      separatorBuilder: (context, index) => const SizedBox(height: 15.0),
+                    ),
                   )
                 ],
               ),
             );
-          } 
-
-          final items = controller.folders;
-          return Container(
-            padding: const EdgeInsets.only(
-              left: 35.0,
-              right: 35.0 
-            ),
-            child: Column(
-              children: [
-                Align(
-                  alignment: Alignment.topRight,
-                  child: TextButton(
-                    onPressed: controller.setEdit,
-                    style: TextButton.styleFrom(
-                      textStyle: const TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold
-                      )
-                    ),
-                    child: ValueListenableBuilder(
-                      valueListenable: controller.isEdit,
-                      builder: (context, value, child) {
-                        return Text(value ? "Cancelar" : "Editar");
-                      },
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: ListView.separated(
-                    itemCount: items.length,
-                    itemBuilder: (context, index) => ListFolderItem(
-                      folder: items[index],
-                      notifier: controller.isEdit,
-                      onChanged: controller.changeSelectItem,
-                      afterPop: controller.loadFolders,
-                    ),
-                    separatorBuilder: (context, index) => const SizedBox(height: 15.0),
-                  ),
-                )
-              ],
-            ),
-          );
-        },
+          },
+        ),
+        floatingActionButton: _buildFab(),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat
       ),
-      floatingActionButton: _buildFab(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat
     );
   }
 
@@ -143,6 +146,12 @@ class ListFolderPageState extends State<ListFolderPage> with AutoInject {
         fontSize: 30.0,
         fontWeight: FontWeight.bold
       ),
+      actions: [
+        IconButton(onPressed: () {
+          Navigator.of(context).pushNamed("/sobre");
+        },
+        icon: const Icon(Icons.info))
+      ],
     );
   }
 
