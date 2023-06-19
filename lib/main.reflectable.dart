@@ -90,6 +90,7 @@ import 'package:flutter/src/material/scaffold.dart' as prefix35;
 import 'package:flutter/src/widgets/editable_text.dart' as prefix39;
 import 'package:flutter/src/widgets/form.dart' as prefix38;
 import 'package:flutter/src/widgets/framework.dart' as prefix34;
+// ignore: depend_on_referenced_packages
 import 'package:meta/meta.dart' as prefix31;
 import 'package:reflect_inject/annotations/inject.dart' as prefix30;
 import 'package:reflect_inject/annotations/reflection.dart' as prefix0;
@@ -101,11 +102,11 @@ import 'package:reflect_inject/global/instances.dart' as prefix29;
 // ignore_for_file: prefer_collection_literals
 // ignore_for_file: unnecessary_const
 
-// ignore:unused_import
+// ignore:unused_import, depend_on_referenced_packages
 import 'package:reflectable/mirrors.dart' as m;
-// ignore:unused_import
+// ignore:unused_import, depend_on_referenced_packages
 import 'package:reflectable/src/reflectable_builder_based.dart' as r;
-// ignore:unused_import
+// ignore:unused_import, depend_on_referenced_packages
 import 'package:reflectable/reflectable.dart' as r show Reflectable;
 
 final _data = <r.Reflectable, r.ReflectorData>{
@@ -5133,7 +5134,7 @@ final _data = <r.Reflectable, r.ReflectorData>{
       [])
 };
 
-final _memberSymbolMap = null;
+const _memberSymbolMap = null;
 
 void initializeReflectable() {
   r.data = _data;

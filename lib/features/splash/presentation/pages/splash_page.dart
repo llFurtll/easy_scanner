@@ -29,8 +29,8 @@ class SplashPageState extends State<SplashPage> with AutoInject {
     controller.init()
       .then((_) => Future.delayed(const Duration(seconds: 2)))
       .then((_) {
-        Navigator.of(context).pushNamedAndRemoveUntil(
-          "/", ModalRoute.withName('/splash')
+        Navigator.of(context).pushReplacementNamed(
+          "/"
         );
       });
   }

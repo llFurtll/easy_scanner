@@ -50,11 +50,11 @@ class ListDocumentScannerPageState extends State<ListDocumentScannerPage> with A
         valueListenable: controller.scanners,
         builder: (context, value, child) {
           if (value.isEmpty) {
-            return Center(
+            return const Center(
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   Icon(Icons.image, size: 150.0),
                   Text(
                     "No momento você não tirou nenhuma foto 🙂",
