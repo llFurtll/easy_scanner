@@ -45,11 +45,11 @@ class ListDocumentPageState extends State<ListDocumentPage> with AutoInject {
           final isEmpty = controller.documents.isEmpty;
 
           if (isEmpty) {
-            return Center(
+            return const Center(
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   Icon(
                     Icons.picture_as_pdf_rounded,
                     size: 150.0,

@@ -130,10 +130,10 @@ class DetailBottomSheetItem extends StatelessWidget with AutoInject {
         child: Container(
           width: double.infinity,
           padding: const EdgeInsets.all(10.0),
-          child: Wrap(
+          child: const Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
             alignment: WrapAlignment.center,
-            children: const [
+            children: [
               Icon(Icons.file_open_rounded, color: Colors.white, size: 25.0),
               SizedBox(width: 5.0),
               Text(
@@ -161,10 +161,10 @@ class DetailBottomSheetItem extends StatelessWidget with AutoInject {
         child: Container(
           width: double.infinity,
           padding: const EdgeInsets.all(10.0),
-          child: Wrap(
+          child: const Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
             alignment: WrapAlignment.center,
-            children: const [
+            children: [
               Icon(Icons.ios_share_rounded, color: Colors.white, size: 25.0),
               SizedBox(width: 5.0),
               Text(
