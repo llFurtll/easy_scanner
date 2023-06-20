@@ -78,17 +78,12 @@ class SobrePage extends StatelessWidget {
         child: Image.network(
           "https://avatars.githubusercontent.com/llFurtll",
           frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-            return AnimatedSwitcher(
-              duration: const Duration(milliseconds: 200),
-              child: frame != null ?
-                SizedBox(
-                  width: double.infinity,
-                  height: double.infinity,
-                  child: child,
-                ) :
-                const Center(
-                  child: CircularProgressIndicator(),
-                )
+            if (wasSynchronouslyLoaded) return child;
+            return AnimatedOpacity(
+              opacity: frame == null ? 0 : 1,
+              duration: const Duration(seconds: 2),
+              curve: Curves.easeOut,
+              child: child,
             );
           },
           errorBuilder: (context, error, stackTrace) {
@@ -196,16 +191,8 @@ class SobrePage extends StatelessWidget {
     Uri newUrl = Uri.parse(url);
 
     Future.value()
-      .then((value) => canLaunchUrl(newUrl))
-      .then((result) async {
-        if (result) {
-          await launchUrl(newUrl);
-          return false;
-        }
-
-        return true;
-      })
-      .then((hasError) => hasError ?
+      .then((_) async => await launchUrl(newUrl))
+      .then((isSucess) => !isSucess ?
         AwesomeDialogAdapter.showDialogMessage(
           context: context,
           type: TypeDialog.error,
