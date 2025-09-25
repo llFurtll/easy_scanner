@@ -192,15 +192,19 @@ class SobrePage extends StatelessWidget {
 
     Future.value()
       .then((_) async => await launchUrl(newUrl))
-      .then((isSucess) => !isSucess ?
+      .then((isSucess) => !isSucess ? () {
+        if (!context.mounted) return;
+
         AwesomeDialogAdapter.showDialogMessage(
           context: context,
           type: TypeDialog.error,
           title: "Atenção",
           textMessage: "Não foi possível abrir o link, tente novamente!",
           textButton: "Ok, tentarei de novo!"
-        ) :
-        null);
+        );
+      }()
+        :
+      null);
   }
 
   Widget spacer(double height) {

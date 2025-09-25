@@ -128,6 +128,7 @@ class ListDocumentScannerPageState extends State<ListDocumentScannerPage> with A
               spaceBetweenChildren: 5.0,
               backgroundColor: Colors.blue.shade700,
               icon: Icons.arrow_upward,
+              foregroundColor: Colors.white,
               activeIcon: Icons.arrow_downward,
               overlayColor: Colors.black,
               overlayOpacity: 0.5,
@@ -175,6 +176,7 @@ class ListDocumentScannerPageState extends State<ListDocumentScannerPage> with A
           icon: const Icon(Icons.info)
         )
       ],
+      foregroundColor: Colors.white,
     );
   }
 

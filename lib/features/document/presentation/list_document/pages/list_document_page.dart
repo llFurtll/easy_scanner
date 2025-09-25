@@ -128,7 +128,7 @@ class ListDocumentPageState extends State<ListDocumentPage> with AutoInject {
               arguments: controller.nameFolder
             ).then((_) => controller.loadDocuments(controller.nameFolder)),
           backgroundColor: value ? Colors.red : Colors.blue.shade700,
-          child: Icon(value ? Icons.delete : Icons.add),
+          child: Icon(value ? Icons.delete : Icons.add, color: Colors.white),
         );
       },
     );
@@ -148,6 +148,7 @@ class ListDocumentPageState extends State<ListDocumentPage> with AutoInject {
         fontSize: 30.0,
         fontWeight: FontWeight.bold
       ),
+      foregroundColor: Colors.white,
     );
   }
 

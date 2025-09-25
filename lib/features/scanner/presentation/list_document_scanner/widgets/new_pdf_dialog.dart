@@ -9,8 +9,8 @@ class NewPdfDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
+    return PopScope(
+      canPop: false,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Form(
@@ -41,7 +41,7 @@ class NewPdfDialog extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.grey.shade200,
                           foregroundColor: Colors.black,
-                          shape: const CircleBorder()
+                          shape: const CircleBorder(),
                         ),
                         onPressed: () => Navigator.of(context).pop(),
                         child: const Icon(Icons.close)
@@ -71,6 +71,8 @@ class NewPdfDialog extends StatelessWidget {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         elevation: 10.0,
+                        backgroundColor: Colors.blue.shade700,
+                        foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30.0)
                         ),

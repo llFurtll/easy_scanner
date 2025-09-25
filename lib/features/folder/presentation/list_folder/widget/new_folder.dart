@@ -106,6 +106,8 @@ class NewFolder extends StatelessWidget {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           elevation: 10.0,
+          backgroundColor: Colors.blue.shade700,
+          foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30.0)
           ),

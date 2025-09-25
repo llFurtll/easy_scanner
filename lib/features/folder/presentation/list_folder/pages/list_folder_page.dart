@@ -31,8 +31,8 @@ class ListFolderPageState extends State<ListFolderPage> with AutoInject {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
+    return PopScope(
+      canPop: false,
       child: Scaffold(
         key: controller.scaffoldKey,
         appBar: _buildAppBar(),
@@ -125,7 +125,7 @@ class ListFolderPageState extends State<ListFolderPage> with AutoInject {
         return FloatingActionButton(
           onPressed: value ? controller.deleteFolders :  controller.newFolder,
           backgroundColor: value ? Colors.red : Colors.blue.shade700,
-          child: Icon(value ? Icons.delete : Icons.add),
+          child: Icon(value ? Icons.delete : Icons.add, color: Colors.white),
         );
       },
     );
@@ -150,6 +150,7 @@ class ListFolderPageState extends State<ListFolderPage> with AutoInject {
         IconButton(onPressed: () {
           Navigator.of(context).pushNamed("/sobre");
         },
+        color: Colors.white,
         icon: const Icon(Icons.info))
       ],
     );

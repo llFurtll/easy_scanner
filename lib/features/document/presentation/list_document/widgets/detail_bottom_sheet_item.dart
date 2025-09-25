@@ -116,6 +116,8 @@ class DetailBottomSheetItem extends StatelessWidget with AutoInject {
           if (result.isNotEmpty) {
             Future.value()
               .then((value) {
+                if (!context.mounted) return;
+
                 AwesomeDialogAdapter.showDialogMessage(
                   context: context,
                   type: TypeDialog.info,
